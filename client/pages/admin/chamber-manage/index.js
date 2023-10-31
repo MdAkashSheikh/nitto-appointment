@@ -9,7 +9,6 @@ import { ToggleButton } from 'primereact/togglebutton';
 import { Toolbar } from 'primereact/toolbar';
 import { classNames } from 'primereact/utils';
 import React, { useEffect, useRef, useState } from 'react';
-import { ProductService } from '../../../demo/service/ProductService';
 import { getJWT } from '../../../admin-utils/utils';
 import { ChamberService } from '../../../demo/service/ChamberService';
 
@@ -79,7 +78,7 @@ const Chamber_Manage = () => {
         setSubmitted(true);
 
         if( product.chamber && product.address && product._id ) {
-            ProductService.editChamber(
+            ChamberService.editChamber(
                 product.chamber,
                 product.address,
                 product._id
@@ -89,7 +88,7 @@ const Chamber_Manage = () => {
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Chamber is Updated', life: 3000 });
             })
         } else if( product.chamber ) {
-            ProductService.postChamber(
+            ChamberService.postChamber(
                 product.chamber,
                 product.address,
             ).then(() => {
@@ -111,7 +110,7 @@ const Chamber_Manage = () => {
     };
 
     const deleteProduct = () => {
-        ProductService.deleteChember(product._id).then(() => {
+        ChamberService.deleteChember(product._id).then(() => {
             setTogleRefresh(!toggleRefresh);
             setDeleteProductDialog(false);
             setProduct(emptyProduct);
@@ -160,7 +159,7 @@ const Chamber_Manage = () => {
                 if (rowData.is_active == '0') {
                     is_active = '1'
                 }
-                ProductService.toggleChamber(is_active, rowData._id).then(() => {
+                ChamberService.toggleChamber(is_active, rowData._id).then(() => {
                 setTogleRefresh(!toggleRefresh)
                 })
              }} />
