@@ -42,6 +42,11 @@ export const FollowUpServices = {
         await axios.post(`${URL}/edit-patient-follow/` + _id, data);
     },
 
+    async getFollow() {
+        const response = await axios.get(`${URL}/get-follow`);
+        return response;
+    },
+
     async postFollowSMS(chamber, followDate, doctor, name,  phone, doctorNumber, _id) {
         const data = {
             chamber,

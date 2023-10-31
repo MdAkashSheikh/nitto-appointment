@@ -16,8 +16,14 @@ import { classNames } from 'primereact/utils';
 import React, { useEffect, useRef, useState } from 'react';
 import { ProductService, baseUrl } from '../../../demo/service/ProductService';
 import { getJWT } from '../../../admin-utils/utils';
+import { PatientService } from '../../../demo/service/PatientService';
+import { ChamberService } from '../../../demo/service/ChamberService';
+import { DoctorService } from '../../../demo/service/DoctorService';
+import { TimeService } from '../../../demo/service/TimeService';
+import { FollowUpServices } from '../../../demo/service/FollowUpService';
+import { AvailableService } from '../../../demo/service/AvailableService';
 const Appointment = () => {
-    let emptyProduct = {
+    let emptyPatient = {
         id: null,
         date1:'',
         doctor: '',
@@ -45,7 +51,7 @@ const Appointment = () => {
         image: '',
     }
 
-    const [products, setProducts] = useState(null);
+    const [patients, setPatients] = useState(null);
     const [masterChamber, setMasterChamber] = useState(null);
     const [masterSpecialist, setMasterSpecialist] = useState(null);
     const [masterDoctor, setMasterDoctor] = useState(null);
@@ -64,8 +70,8 @@ const Appointment = () => {
 
     const [followDialog, setFolloDialog] = useState(false);
     const [follow, setFollow] = useState(emptyFollo);
-    const [product, setProduct] = useState(emptyProduct);
-    const [selectedProducts, setSelectedProducts] = useState(null);
+    const [patient, setPatient] = useState(emptyPatient);
+    const [selectedPatients, setSelectedPatients] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
@@ -96,43 +102,44 @@ const Appointment = () => {
             return;
         }
 
-        ProductService.getProducts().then((data) => setProducts(data));
-        ProductService.getChamber().then((data) => setMasterChamber(data));
-        ProductService.getSpecialist().then((data) => setMasterSpecialist(data));
-        ProductService.getDoctor().then((data) => setMasterDoctor(data));
-        ProductService.getTime().then((data) => setMasterTime(data));
-        ProductService.getFollow().then((data) => setFollowData(data));
-        ProductService.getAvailable().then((data) => {
-            setMsAvailable(data)
-            setMasterAvailable(data);
-        });
+        PatientService.getPatient().then((res) => setPatients(res.data.AllData));
+        ChamberService.getChamber().then((res) => setMasterChamber(res.data.AllData));
+        DoctorService.getDoctor().then((res) => setMasterDoctor(res.data.AllData));
+        TimeService.getTime().then((res) => setMasterTime(res.data.AllData));
+        FollowUpServices.getFollow().then((res) => setFollowData(res.data.AllData));
+        AvailableService.getAvail().then((res) => {
+            setMasterAvailable(res.data.AllData)
+            setMsAvailable(res.data.AllData);
+        })
+
     }, [ jwtToken, toggleRefresh]);
 
     const openNew = () => {
-        setProduct(emptyProduct);
+        setPatient(emptyPatient);
         setSubmitted(false);
         setProductDialog(true);
         setSCheck(1)
     };
 
-    const openFollow = (product) => {
+
+    const openFollow = (patient) => {
         setFollow({
             ...emptyFollo,  
-            pid: product._id,
-            pchamber: product.chamber,
-            pspecialist: product.specialist,
-            pdoctor: product.doctor,
-            ptime1: product.time1,
-            pdate1: product.date1,
-            pname: product.name,
-            pphone: product.phone,
-            pserial: product.serial,
+            pid: patient._id,
+            pchamber: patient.chamber,
+            pspecialist: patient.specialist,
+            pdoctor: patient.doctor,
+            ptime1: patient.time1,
+            pdate1: patient.date1,
+            pname: patient.name,
+            pphone: patient.phone,
+            pserial: patient.serial,
         });
         setChecked(false)
-        setCheckChamber(product.chamber);
-        setCheckDoctor(product.doctor);
-        setCheckSpecial(product.specialist) 
-        setProduct({...product});
+        setCheckChamber(patient.chamber);
+        setCheckDoctor(patient.doctor);
+        setCheckSpecial(patient.specialist) 
+        setPatient({...patient});
         setSubmitted(false);
         setFolloDialog(true)
     }
@@ -153,59 +160,59 @@ const Appointment = () => {
     const saveProduct = (type) => {
         setSubmitted(true);
 
-        console.log({type, follow, product,}, "TEST")
+        console.log({type, follow, patient,}, "TEST")
 
-        console.log(type, "TYPE", product, "PRODUCT", follow, "FOLLOW")
+        console.log(type, "TYPE", patient, "PRODUCT", follow, "FOLLOW")
 
 
-        if(type == 'product' && product.chamber && product.specialist && product.doctor && product.date1 && product.time1 && product.name && product.age && product.gender && product.phone && product.serial && product._id) {
+        if(type == 'patient' && patient.chamber && patient.specialist && patient.doctor && patient.date1 && patient.time1 && patient.name && patient.age && patient.gender && patient.phone && patient.serial && patient._id) {
             console.log("Edit-----Patient")
 
             ProductService.editPatient(
-                product.chamber,
-                product.specialist,
-                product.doctor,
-                product.date1,
-                product.time1,
-                product.name,
-                product.age,
-                product.gender,
-                product.phone,
-                product.serial,
-                product._id,
-                product.details,
+                patient.chamber,
+                patient.specialist,
+                patient.doctor,
+                patient.date1,
+                patient.time1,
+                patient.name,
+                patient.age,
+                patient.gender,
+                patient.phone,
+                patient.serial,
+                patient._id,
+                patient.details,
             ).then(() => {
                 setTogleRefresh(!toggleRefresh);
                 setProductDialog(false);
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Patient is Updated', life: 3000 });
             })
-        } else if(type == 'product' && product._id == undefined && product.chamber && product.doctor && product.date1 && product.time1 && product.name) {
+        } else if(type == 'patient' && patient._id == undefined && patient.chamber && patient.doctor && patient.date1 && patient.time1 && patient.name) {
             console.log("Create-----Patient")
             ProductService.postPatient(
-                product.chamber,
-                product.specialist,
-                product.doctor,
-                product.date1,
-                product.time1,
-                product.name,
-                product.age,
-                product.gender,
-                product.phone,
-                product.details,
-                product.serial,
-                product.status,
+                patient.chamber,
+                patient.specialist,
+                patient.doctor,
+                patient.date1,
+                patient.time1,
+                patient.name,
+                patient.age,
+                patient.gender,
+                patient.phone,
+                patient.details,
+                patient.serial,
+                patient.status,
             ).then(() => {
                 setTogleRefresh(!toggleRefresh);
                 setProductDialog(false);
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Patient is Created', life: 3000, position:"top-center" });
             })
-        } else if(type == 'follow' && type == 'product' && follow.pchamber , follow.pspecialist, follow.pdoctor, follow.pdate1, follow.ptime1, follow.pname, follow.pphone, follow.pserial, follow.pid && follow.visit_status && follow.price && follow.followUpDate && follow.visit_time, product._id ) {
-            console.log(product);
+        } else if(type == 'follow' && type == 'patient' && follow.pchamber , follow.pspecialist, follow.pdoctor, follow.pdate1, follow.ptime1, follow.pname, follow.pphone, follow.pserial, follow.pid && follow.visit_status && follow.price && follow.followUpDate && follow.visit_time, patient._id ) {
+            console.log(patient);
 
-            console.log(product._id)
+            console.log(patient._id)
 
             ProductService.editPatientFollow(
-                product._id,
+                patient._id,
             ).then(() => {
                 setFolloDialog(false)
             })
@@ -245,10 +252,11 @@ const Appointment = () => {
         }
     }; 
 
+    console.log(patients, "MSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
 
-    const editProduct = (product) => {
-        console.log("EDIT", product);
-        setProduct({ ...product });
+    const editProduct = (patient) => {
+        console.log("EDIT", patient);
+        setPatient({ ...patient });
         setProductDialog(true);
         setSCheck(0);
     };
@@ -264,10 +272,10 @@ const Appointment = () => {
     }
 
     const deleteProduct = () => {
-        let _products = products.filter((val) => val.id !== product.id);
-        setProducts(_products);
+        let _products = patients.filter((val) => val.id !== patient.id);
+        setPatients(_products);
         setFolloDialog(false);
-        setProduct(emptyProduct);
+        setPatient(emptyPatient);
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
     };
 
@@ -305,7 +313,7 @@ const Appointment = () => {
         let _product = {...follow };
         _product[`${name}`] = e.value;
         setFollow(_product);
-        // setProduct(_product);
+        // setPatient(_product);
 
         const test = e.value.toString();
         setTimeHook(test.slice(0, 3));
@@ -314,16 +322,16 @@ const Appointment = () => {
 
     const onInputChange = (e, name) => {
         const val = (e.target && e.target.value) || '';
-        let _product = { ...product };
+        let _product = { ...patient };
         _product[`${name}`] = val;
 
-        setProduct(_product);
+        setPatient(_product);
     };
 
     const onSelectionChange = (e, name) => {
-        let _product = {...product };
+        let _product = {...patient };
         _product[`${name}`] = e.value;
-        setProduct(_product);
+        setPatient(_product);
 
         if(name == 'chamber' ) {
             setCheckChamber(e.value);
@@ -335,7 +343,7 @@ const Appointment = () => {
             setCheckSpecial(e.value);
         }
 
-        console.log('selection: ', 'name', name, 'selection', e.value, 'product', _product);
+        console.log('selection: ', 'name', name, 'selection', e.value, 'patient', _product);
         
         if (e.value == undefined) {
             let newAvail = masterAvailable?.filter(item => item.is_active == '1');
@@ -381,15 +389,15 @@ const Appointment = () => {
     }
 
     const onDateChange = (e, name) => {
-        let _product = {...product };
+        let _product = {...patient };
         _product[`${name}`] = e.value;
-        setProduct(_product);
+        setPatient(_product);
 
         const test = e.value.toString();
         setTimeHook(test.slice(0, 3));
         setDateHo(e.value);
 
-        console.log('selectionDate: ', 'name', test, 'typeOf', typeof e.value, 'selection', e.value, 'product', _product)
+        console.log('selectionDate: ', 'name', test, 'typeOf', typeof e.value, 'selection', e.value, 'patient', _product)
     }
 
 
@@ -551,14 +559,14 @@ const Appointment = () => {
         msSerila = Math.max(...msSerila);
 
     } else if(masterAvailable != undefined){
-        let copySerial = masterAvailable?.filter(item => (item.chamber == product.chamber) && (item.dname == product.doctor));
+        let copySerial = masterAvailable?.filter(item => (item.chamber == patient.chamber) && (item.dname == patient.doctor));
         msSerila = copySerial?.map(item => item.serial-0);
     }
 
     const numArr = Array.from({ length: msSerila}, (_, index) => index + 1);
 
     if(sCheck == 0) {
-        stDate = products?.filter(item => item.date1 == product.date1);
+        stDate = patients?.filter(item => item.date1 == patient.date1);
         serialDate = stDate.map(item => item.serial);
         filSerial = serialDate?.filter(item => item != undefined);
         ans = numArr?.filter(item => !filSerial.includes(item.toString()))
@@ -566,7 +574,7 @@ const Appointment = () => {
 
     } else if(sCheck == 1) {
         let date2 = format(new Date(dateHo), 'yyyy-MM-dd');
-        stDate = products?.filter(item => item.date1.slice(0, 10) == date2);
+        stDate = patients?.filter(item => item.date1.slice(0, 10) == date2);
         serialDate = stDate.map(item => item.serial);
         filSerial = serialDate?.filter(item => item != undefined);
         ans = numArr?.filter(item => !filSerial.includes(item.toString()))
@@ -692,7 +700,7 @@ const Appointment = () => {
         return (
             <>
                 <span className="p-column-title">Status</span>
-                <span className={`product-badge status-${rowData.status}`} >{rowData.status}</span>
+                <span className={`patient-badge status-${rowData.status}`} >{rowData.status}</span>
             </>
         );
     };
@@ -753,7 +761,7 @@ const Appointment = () => {
     const productDialogFooter = (
         <>
             <Button label="Cancel" icon="pi pi-times" text onClick={hideDialog} />
-            <Button label="Save" icon="pi pi-check" text onClick={() => saveProduct('product')} />
+            <Button label="Save" icon="pi pi-check" text onClick={() => saveProduct('patient')} />
         </>
     );
     const followDialogFooter = (
@@ -764,7 +772,7 @@ const Appointment = () => {
     );
     
     
-    if(products == null) {
+    if(patients == null) {
         return (
             <div className="card">
                 <div className="border-round border-1 surface-border p-4 surface-card">
@@ -788,8 +796,8 @@ const Appointment = () => {
 
     // console.log(follow, "FolloW Up Date")
 
-    // console.log({product, follow})
-    // console.log("TYPE",product);
+    // console.log({patient, follow})
+    // console.log("TYPE",patient);
 
     return (
         <div className="grid crud-demo">
@@ -804,9 +812,9 @@ const Appointment = () => {
 
                     <DataTable
                         ref={dt}
-                        value={products}
-                        selection={selectedProducts}
-                        onSelectionChange={(e) => setSelectedProducts(e.value)}
+                        value={patients}
+                        selection={selectedPatients}
+                        onSelectionChange={(e) => setSelectedPatients(e.value)}
                         dataKey="id"
                         paginator
                         rows={13}
@@ -905,7 +913,7 @@ const Appointment = () => {
                             <div className="field col">
                                 <label htmlFor="chamber">Chamber</label>
                                 <Dropdown
-                                    value={product.chamber}
+                                    value={patient.chamber}
                                     name='chamber'
                                     onChange={(e) => onSelectionChange(e, "chamber")}
                                     options={chamberList}
@@ -915,11 +923,11 @@ const Appointment = () => {
                                     required
                                     autoFocus
                                     className={classNames({
-                                        "p-invalid": submitted && !product.chamber,
+                                        "p-invalid": submitted && !patient.chamber,
                                     })}
                                 />
                                 </div>
-                                {submitted && !product.chamber && (
+                                {submitted && !patient.chamber && (
                                     <small className="p-invalid">
                                         Chamber is required.
                                     </small>
@@ -929,7 +937,7 @@ const Appointment = () => {
                             <div className="field col">
                                 <label htmlFor="specialist">Specialization</label>
                                 <Dropdown
-                                    value={product.specialist}
+                                    value={patient.specialist}
                                     name='specialist'
                                     onChange={(e) => onSelectionChange(e, "specialist")}
                                     options={specialistList}
@@ -938,10 +946,10 @@ const Appointment = () => {
                                     placeholder="Select a Specialization"
                                     required
                                     className={classNames({
-                                        "p-invalid": submitted && !product.specialist,
+                                        "p-invalid": submitted && !patient.specialist,
                                     })}
                                 />
-                                {submitted && !product.chamber && (
+                                {submitted && !patient.chamber && (
                                     <small className="p-invalid">
                                         Specialization is required.
                                     </small>
@@ -950,7 +958,7 @@ const Appointment = () => {
                             <div className="field col">
                                 <label htmlFor="doctor">Doctor</label>
                                 <Dropdown
-                                    value={product.doctor}
+                                    value={patient.doctor}
                                     name='doctor'
                                     onChange={(e) => onSelectionChange(e, "doctor")}
                                     options={doctorList}
@@ -959,10 +967,10 @@ const Appointment = () => {
                                     placeholder="Select a Doctor"
                                     required
                                     className={classNames({
-                                        "p-invalid": submitted && !product.doctor,
+                                        "p-invalid": submitted && !patient.doctor,
                                     })}
                                 />
-                                {submitted && !product.chamber && (
+                                {submitted && !patient.chamber && (
                                     <small className="p-invalid">
                                         Doctor is required.
                                     </small>
@@ -974,7 +982,7 @@ const Appointment = () => {
                             <div className="field col">
                                 <label htmlFor="date1">Date</label>
                                 <Calendar 
-                                    value={new Date(product.date1)}
+                                    value={new Date(patient.date1)}
                                     name='date1' 
                                     onChange={(e) => onDateChange(e, "date1")} 
                                     dateFormat="dd/mm/yy" 
@@ -982,10 +990,10 @@ const Appointment = () => {
                                     required
                                     showIcon
                                     className={classNames({
-                                        "p-invalid": submitted && !product.date1,
+                                        "p-invalid": submitted && !patient.date1,
                                     })}
                                 />
-                                {submitted && !product.date1 && (
+                                {submitted && !patient.date1 && (
                                     <small className="p-invalid">
                                         Date is required.
                                     </small>
@@ -994,7 +1002,7 @@ const Appointment = () => {
                             <div className="field col">
                                 <label htmlFor="time1">Time</label>
                                 <Dropdown
-                                    value={product.time1}
+                                    value={patient.time1}
                                     name='time1'
                                     onChange={(e) => onSelectionChange(e, "time1")}
                                     options={timeList1}
@@ -1003,10 +1011,10 @@ const Appointment = () => {
                                     placeholder="Select a Time"
                                     required
                                     className={classNames({
-                                        "p-invalid": submitted && !product.time1,
+                                        "p-invalid": submitted && !patient.time1,
                                     })}
                                 />
-                                {submitted && !product.chamber && (
+                                {submitted && !patient.chamber && (
                                     <small className="p-invalid">
                                         Time is required.
                                     </small>
@@ -1019,14 +1027,14 @@ const Appointment = () => {
                                 <label htmlFor="name">Name</label>
                                 <InputText
                                     id="name"
-                                    value={product.name}
+                                    value={patient.name}
                                     onChange={(e) => onInputChange(e, "name")}
                                     required
                                     className={classNames({
-                                        "p-invalid": submitted && !product.name,
+                                        "p-invalid": submitted && !patient.name,
                                     })}
                                 />
-                                {submitted && !product.name && (
+                                {submitted && !patient.name && (
                                     <small className="p-invalid">
                                         Name is required.
                                     </small>
@@ -1036,7 +1044,7 @@ const Appointment = () => {
                                 <label htmlFor="age">Age</label>
                                 <InputText
                                     id="age"
-                                    value={product.age}
+                                    value={patient.age}
                                     onChange={(e) => onInputChange(e, "age")}
                                 />
                             </div>
@@ -1046,7 +1054,7 @@ const Appointment = () => {
                             <div className="field col">
                                 <label htmlFor="gender">Gender</label>
                                 <Dropdown
-                                    value={product.gender}
+                                    value={patient.gender}
                                     name='gender'
                                     onChange={(e) => onSelectionChange(e, "gender")}
                                     options={genderList}
@@ -1059,7 +1067,7 @@ const Appointment = () => {
                                 <label htmlFor="phone">Phone</label>
                                 <InputText
                                     id="phone"
-                                    value={product.phone}
+                                    value={patient.phone}
                                     onChange={(e) => onInputChange(e, "phone")}
                                 />
                             </div>
@@ -1069,7 +1077,7 @@ const Appointment = () => {
                             <label htmlFor="details">Details</label>
                             <InputTextarea
                                 id="details"
-                                value={product.details}
+                                value={patient.details}
                                 onChange={(e) =>
                                     onInputChange(e, "details")
                                 }
@@ -1082,17 +1090,17 @@ const Appointment = () => {
                         <div className="field">
                             <label htmlFor="serial">Add Serial Number</label>
                             <Dropdown 
-                                value={Number(product.serial)} 
+                                value={Number(patient.serial)} 
                                 name='serial'
                                 onChange={(e) => onSelectionChange(e, "serial")} 
                                 options={serialList} 
                                 optionLabel="label" 
                                 placeholder="Select a Serial Number" 
                                 className={classNames({
-                                    "p-invalid": submitted && !product.serial,
+                                    "p-invalid": submitted && !patient.serial,
                                 })}
                             />
-                            {submitted && !product.serial && (
+                            {submitted && !patient.serial && (
                                 <small className="p-invalid">
                                     Serial Number is required.
                                 </small>
