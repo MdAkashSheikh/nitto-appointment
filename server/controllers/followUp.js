@@ -1,4 +1,5 @@
 const followUpSc = require("../models/followUpSc");
+const patientSc = require("../models/patientSc");
 const smsSc = require("../models/smsSc");
 
 const postFollow = async(req, res) => {
@@ -127,6 +128,21 @@ const postFollowSMS = async(req, res) => {
     }
 }
 
+const editPatientFollow = async(req, res) => {
+    const id = req.params.id;
+    const visit_status = req.body.visit_status;
+
+    try {
+        const oneData = await patientSc.findByIdAndUpdate(id, {
+            "visit_status": visit_status
+        })
+        res.send(oneData);
+
+    } catch ( err ) {
+        res.status(400).send(err);
+    }
+}
+
 module.exports = {
     postFollow,
     editFollow,
@@ -134,4 +150,5 @@ module.exports = {
     getFollow,
     getFollowImage,
     postFollowSMS,
+    editPatientFollow,
 }

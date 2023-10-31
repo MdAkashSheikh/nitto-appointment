@@ -1,0 +1,58 @@
+import axios from "axios";
+import { URL } from "./PatientService";
+
+export const FollowUpServices = {
+
+    async postFollow(chamber, specialist, doctor,date1, time1, name, phone, serial, id, visit_status, price, followUpDate, visit_time, file) {
+        const data = {
+            chamber, 
+            specialist, 
+            doctor,
+            date1,
+            time1,
+            name,
+            phone,
+            serial,
+            id,
+            visit_status,
+            price, 
+            followUpDate,
+            visit_time, 
+            file,
+        }
+
+        await axios.post(`${URL}/post-follow`, data);
+    },
+
+    async editFollow(price, followUpDate, visit_time, _id) {
+        const data = {
+            price,
+            followUpDate,
+            visit_time,
+        }
+
+        await axios.post(`${URL}/edit-follow/` + _id, data);
+    },
+
+    async editPatientFollow( _id) {
+        const data = {
+            visit_status: true
+        }
+
+        await axios.post(`${URL}/edit-patient-follow/` + _id, data);
+    },
+
+    async postFollowSMS(chamber, followDate, doctor, name,  phone, doctorNumber, _id) {
+        const data = {
+            chamber,
+            followDate,
+            doctor,
+            name,
+            phone,
+            doctorNumber,
+            is_active: "Success"
+        }
+
+        await axios.post(`${URL}/post-follow-sms/` + _id, data);
+    }
+}
