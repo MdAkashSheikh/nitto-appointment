@@ -1,4 +1,6 @@
 const patientSc = require("../models/patientSc");
+const smsSc = require("../models/smsSc");
+const { send_sms } = require("../sms_api/smsApi");
 
 const postPatient = async(req, res) => {
     const chamber = req.body.chamber;

@@ -10,8 +10,9 @@ import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import { classNames } from 'primereact/utils';
 import React, { useEffect, useRef, useState } from 'react';
-import { ProductService } from '../../../demo/service/ProductService';
 import { getJWT } from '../../../admin-utils/utils';
+import { OperatorService } from '../../../demo/service/OperatorService';
+import { DoctorService } from '../../../demo/service/DoctorService';
 
 const Operator = () => {
     let emptyProduct = {
@@ -53,8 +54,9 @@ const Operator = () => {
             return;
         }
 
-        ProductService.getOperator().then((data) => setProducts(data));
-        ProductService.getDoctor().then((data) => setMasterDoctor(data));
+        OperatorService.getOperator().then((res) => setProducts(res.data.AllData));
+        DoctorService.getDoctor().then((res) => setMasterDoctor(res.data.AllData));
+
     }, [jwtToken, toggleRefresh]);
 
     const openNew = () => {
@@ -80,7 +82,7 @@ const Operator = () => {
         setSubmitted(true);
 
         if( product.name && product.userName && product.phone &&  product.password && product.dr_name && product._id) {
-            ProductService.editOperator(
+            OperatorService.editOperator(
                 product.name,
                 product.userName,
                 product.phone,
@@ -94,7 +96,7 @@ const Operator = () => {
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Operator is Updated', life: 3000 });
             })
         } else if( product.name && product.userName && product.phone &&  product.password && product.dr_name) {
-            ProductService.postOperator(
+            OperatorService.postOperator(
                 product.name,
                 product.userName,
                 product.phone,
@@ -120,7 +122,7 @@ const Operator = () => {
     };
 
     const deleteProduct = () => {
-        ProductService.deleteOperator(product._id).then(() => {
+        OperatorService.deleteOperator(product._id).then(() => {
             setTogleRefresh(!toggleRefresh);
             setDeleteProductDialog(false);
             setProduct(emptyProduct);
@@ -191,20 +193,6 @@ const Operator = () => {
         );
     }
 
-    // const statusBodyTemplate = (rowData) => {
-    //     return (
-    //         <ToggleButton onLabel="Active" offLabel="Inactive" onIcon="pi pi-check" offIcon="pi pi-times" 
-    //         checked={rowData.is_active != '0'} onChange={(e) => {
-    //             let is_active = '0';
-    //             if (rowData.is_active == '0') {
-    //                 is_active = '1'
-    //             }
-    //             ProductService.toggleDoctor(is_active, rowData._id).then(() => {
-    //             setTogleRefresh(!toggleRefresh)
-    //             })
-    //          }} />
-    //     );
-    // }
 
     const actionBodyTemplate = (rowData) => {
         return (

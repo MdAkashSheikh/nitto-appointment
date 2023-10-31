@@ -9,8 +9,10 @@ import { Skeleton } from 'primereact/skeleton';
 import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import React, { useEffect, useRef, useState } from 'react';
-import { ProductService } from '../../../demo/service/ProductService';
 import { getJWT } from '../../../admin-utils/utils';
+import { PatientService } from '../../../demo/service/PatientService';
+import { FollowUpServices } from '../../../demo/service/FollowUpService';
+import { DoctorService } from '../../../demo/service/DoctorService';
 
 const All_Data = () => {
     
@@ -72,14 +74,15 @@ const All_Data = () => {
         if(!jwtToken) {
             return;
         }
-        
-        ProductService.getProducts().then((data) => setProducts(data));
-        ProductService.getFollow().then((data) => {
-            setFollowData(data);
-            const price = getTotalPrice(data);
+
+        PatientService.getPatient().then((res) => setProducts(res.data.AllData));
+        FollowUpServices.getFollow().then((res) => {
+            setFollowData(res.data.AllData)
+            const price = getTotalPrice(res.data.AllData)
             setTotalPrice(price);
-        });
-        ProductService.getDoctor().then((data) => setMsDoctor(data));
+        })
+        DoctorService.getDoctor().then((res) => setMsDoctor(res.data.AllData));
+
     }, [jwtToken]);
 
     const filteredDoctor = msDoctor?.filter(item => item.is_active == '1');

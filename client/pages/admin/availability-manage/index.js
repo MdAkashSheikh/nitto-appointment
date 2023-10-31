@@ -12,6 +12,10 @@ import { classNames } from 'primereact/utils';
 import React, { useEffect, useRef, useState } from 'react';
 import { ProductService } from '../../../demo/service/ProductService';
 import { getJWT } from '../../../admin-utils/utils';
+import { AvailableService } from '../../../demo/service/AvailableService';
+import { DoctorService } from '../../../demo/service/DoctorService';
+import { ChamberService } from '../../../demo/service/ChamberService';
+import { TimeService } from '../../../demo/service/TimeService';
 
 const Availability_Manage = () => {
     let emptyProduct = {
@@ -88,10 +92,12 @@ const Availability_Manage = () => {
             return;
         }
 
-        ProductService.getAvailable().then((data) => setProducts(data));
-        ProductService.getDoctor().then((dr) => setMasterDoctor(dr));
-        ProductService.getChamber().then((ch) => setMasterChember(ch));
-        ProductService.getTime().then((tm) => setMasterTime(tm));
+        AvailableService.getAvail().then((res) => setProducts(res.data.AllData));
+        DoctorService.getDoctor().then((res) => setMasterDoctor(res.data.AllData));
+        ChamberService.getChamber().then((res) => setMasterChember(res.data.AllData));
+        TimeService.getTime().then((res) => setMasterTime(res.data.AllData));
+
+
     }, [jwtToken, toggleRefresh]);
 
     const openNew = () => {
@@ -120,7 +126,7 @@ const Availability_Manage = () => {
         console.log("HOP", selectedCategories);
 
         if( product.dname, product.chamber && weekdays && product.saturdayT && product.sundayT && product.mondayT && product.tuesdayT && product.wednesdayT && product.thursdayT && product.fridayT && product.serial && product._id) {
-            ProductService.editAvailable(
+            AvailableService.editAvail(
                 product.dname,
                 product.chamber,
                 weekdays,
@@ -139,7 +145,7 @@ const Availability_Manage = () => {
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Availability is Updated', life: 3000 });
             })
         } else if(product.dname, product.chamber && product.serial) {
-            ProductService.postAvailable(
+            AvailableService.postAvail(
                 product.dname,
                 product.chamber,
                 weekdays,

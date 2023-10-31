@@ -1,6 +1,6 @@
 const specialistSc = require("../models/specialistSc");
 
-const postSpeacial = async(req, res) => {
+const postSpecial = async(req, res) => {
     const specialist = req.body.specialist;
     const details = req.body.details;
 
@@ -16,7 +16,7 @@ const postSpeacial = async(req, res) => {
     }
 }
 
-const editSpeacial = async(req, res) => {
+const editSpecial = async(req, res) => {
     const id = req.params.id;
     const specialist = req.body.specialist;
     const details = req.body.details;
@@ -33,7 +33,7 @@ const editSpeacial = async(req, res) => {
     }
 }
 
-const getSpeacial = async(req, res) => {
+const getSpecial = async(req, res) => {
 
     try {
         const AllData = await specialistSc.find({}).sort('-date');
@@ -44,7 +44,7 @@ const getSpeacial = async(req, res) => {
     }
 }
 
-const deleteSpeacial = async(req, res) => {
+const deleteSpecial = async(req, res) => {
     const id = req.params.id;
 
     try {
@@ -56,7 +56,7 @@ const deleteSpeacial = async(req, res) => {
     }
 }
 
-const toggleSpeacial = async(req, res) => {
+const toggleSpecial = async(req, res) => {
     const id = req.params.id;
     const is_active = req.body.is_active;
 
@@ -72,9 +72,9 @@ const toggleSpeacial = async(req, res) => {
 }
 
 module.exports = {
-    postSpeacial,
-    editSpeacial,
-    getSpeacial,
-    deleteSpeacial,
-    toggleSpeacial
+    postSpecial,
+    editSpecial,
+    getSpecial,
+    deleteSpecial,
+    toggleSpecial
 }

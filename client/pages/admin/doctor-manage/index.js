@@ -10,8 +10,9 @@ import { ToggleButton } from 'primereact/togglebutton';
 import { Toolbar } from 'primereact/toolbar';
 import { classNames } from 'primereact/utils';
 import React, { useEffect, useRef, useState } from 'react';
-import { ProductService } from '../../../demo/service/ProductService';
 import { getJWT } from '../../../admin-utils/utils';
+import { DoctorService } from '../../../demo/service/DoctorService';
+import { SpecializationService } from '../../../demo/service/SpecializationService';
 
 
 const Doctor_Manage = () => {
@@ -53,9 +54,10 @@ const Doctor_Manage = () => {
         if(!jwtToken) {
             return;
         }
+
+        DoctorService.getDoctor().then((res) => setProducts(res.data.AllData));
+        SpecializationService.getSpecial().then((res) => getMasterSpecialist(res.data.AllData));
         
-        ProductService.getDoctor().then((data) => setProducts(data));
-        ProductService.getSpecialist().then((sp) => getMasterSpecialist(sp));
     }, [jwtToken, toggleRefresh]);
 
     const openNew = () => {
@@ -81,7 +83,7 @@ const Doctor_Manage = () => {
         setSubmitted(true);
 
         if( product.name && product.specialist && product.designation &&  product.degree && product.experience && product._id) {
-            ProductService.editDoctor(
+            DoctorService.editDoctor(
                 product.name,
                 product.specialist,
                 product.designation,
@@ -95,7 +97,7 @@ const Doctor_Manage = () => {
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Doctor is Updated', life: 3000 });
             })
         } else if( product.name && product.specialist && product.designation &&  product.degree && product.experience) {
-            ProductService.postDoctor(
+            DoctorService.postDoctor(
                 product.name,
                 product.specialist,
                 product.designation,
@@ -121,7 +123,7 @@ const Doctor_Manage = () => {
     };
 
     const deleteProduct = () => {
-        ProductService.deleteDoctor(product._id).then(() => {
+        DoctorService.deleteDoctor(product._id).then(() => {
             setTogleRefresh(!toggleRefresh);
             setDeleteProductDialog(false);
             setProduct(emptyProduct);
@@ -209,7 +211,7 @@ const Doctor_Manage = () => {
                 if (rowData.is_active == '0') {
                     is_active = '1'
                 }
-                ProductService.toggleDoctor(is_active, rowData._id).then(() => {
+                DoctorService.toggleDoctor(is_active, rowData._id).then(() => {
                 setTogleRefresh(!toggleRefresh)
                 })
              }} />

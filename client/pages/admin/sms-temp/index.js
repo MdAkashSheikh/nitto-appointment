@@ -10,8 +10,8 @@ import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import { classNames } from 'primereact/utils';
 import React, { useEffect, useRef, useState } from 'react';
-import { ProductService } from '../../../demo/service/ProductService';
 import { getJWT } from '../../../admin-utils/utils';
+import { SMSTemService } from '../../../demo/service/SMSTemService';
 
 const Chamber_Manage = () => {
     let emptyProduct = {
@@ -51,8 +51,12 @@ const Chamber_Manage = () => {
         if(!jwtToken) {
             return;
         }
-        ProductService.getSMS().then((data) => setProducts(data));
-        ProductService.getSMS().then((data) => setData1(data));
+
+        SMSTemService.getSMS().then((res) => {
+            setProducts(res.data.AllData)
+            setData1(res.data.AllData)
+        })
+
     }, [jwtToken, toggleRefresh]);
 
     const openNew = () => {
@@ -78,7 +82,7 @@ const Chamber_Manage = () => {
         setSubmitted(true);
 
         if( product.title && sms1 && product._id ) {
-            ProductService.editSMS(
+            SMSTemService.editSMS(
                 product.title,
                 product.sms1,
                 product._id
@@ -88,7 +92,7 @@ const Chamber_Manage = () => {
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Chamber is Updated', life: 3000 });
             })
         } else if( sms1 ) {
-            ProductService.postSMS(
+            SMSTemService.postSMS(
                 product.title,
                 product.sms1,
             ).then(() => {
@@ -110,7 +114,7 @@ const Chamber_Manage = () => {
     };
 
     const deleteProduct = () => {
-        ProductService.deleteSMS(product._id).then(() => {
+        SMSTemService.deleteSMS(product._id).then(() => {
             setTogleRefresh(!toggleRefresh);
             setDeleteProductDialog(false);
             setProduct(emptyProduct);

@@ -168,7 +168,7 @@ const Appointment = () => {
         if(type == 'patient' && patient.chamber && patient.specialist && patient.doctor && patient.date1 && patient.time1 && patient.name && patient.age && patient.gender && patient.phone && patient.serial && patient._id) {
             console.log("Edit-----Patient")
 
-            ProductService.editPatient(
+            PatientService.editPatient(
                 patient.chamber,
                 patient.specialist,
                 patient.doctor,
@@ -188,7 +188,7 @@ const Appointment = () => {
             })
         } else if(type == 'patient' && patient._id == undefined && patient.chamber && patient.doctor && patient.date1 && patient.time1 && patient.name) {
             console.log("Create-----Patient")
-            ProductService.postPatient(
+            PatientService.postPatient(
                 patient.chamber,
                 patient.specialist,
                 patient.doctor,
@@ -211,13 +211,13 @@ const Appointment = () => {
 
             console.log(patient._id)
 
-            ProductService.editPatientFollow(
+            FollowUpServices.editPatientFollow(
                 patient._id,
             ).then(() => {
                 setFolloDialog(false)
             })
 
-            ProductService.postFollow(
+            FollowUpServices.postFollow(
                 follow.pchamber,
                 follow.pspecialist,
                 follow.pdoctor,
@@ -239,7 +239,7 @@ const Appointment = () => {
             })
         } else if(type == "follow" &&  follow.price && follow.followUpDate && follow.visit_time && follow._id) {
             console.log("EDIT-FOLLOW");
-            ProductService.editFollow(
+            FollowUpServices.editFollow(
                 follow.price,
                 follow.followUpDate,
                 follow.time1,
@@ -252,7 +252,6 @@ const Appointment = () => {
         }
     }; 
 
-    console.log(patients, "MSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
 
     const editProduct = (patient) => {
         console.log("EDIT", patient);

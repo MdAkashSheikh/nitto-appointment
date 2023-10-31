@@ -51,11 +51,11 @@ const {
 } = require('../controllers/availability');
 
 const { 
-    postSpeacial, 
-    editSpeacial, 
-    getSpeacial,
-    deleteSpeacial,
-    toggleSpeacial
+    postSpecial, 
+    editSpecial, 
+    getSpecial,
+    deleteSpecial,
+    toggleSpecial
 } = require('../controllers/specialization');
 
 const { 
@@ -130,11 +130,11 @@ router.delete('/delete-avail/:id', deleteAvail);
 router.post('/toggle-avail/:id', toggleAvail);
 
 //Specialization Route URL
-router.post('/post-speacial', postSpeacial);
-router.post('/edit-speacial/:id', editSpeacial);
-router.get('/get-speacial', getSpeacial);
-router.delete('delete-speacial/:id', deleteSpeacial);
-router.post('/toggle-speacial/:id', toggleSpeacial);
+router.post('/post-special', postSpecial);
+router.post('/edit-special/:id', editSpecial);
+router.get('/get-special', getSpecial);
+router.delete('delete-special/:id', deleteSpecial);
+router.post('/toggle-special/:id', toggleSpecial);
 
 //Operator Route URL
 router.post('/post-operator', postOperator);

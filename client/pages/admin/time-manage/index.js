@@ -9,8 +9,8 @@ import { ToggleButton } from 'primereact/togglebutton';
 import { Toolbar } from 'primereact/toolbar';
 import { classNames } from 'primereact/utils';
 import React, { useEffect, useRef, useState } from 'react';
-import { ProductService } from '../../../demo/service/ProductService';
 import { getJWT } from '../../../admin-utils/utils';
+import { TimeService } from '../../../demo/service/TimeService';
 
 const Time_Manage = () => {
     let emptyProduct = {
@@ -46,7 +46,8 @@ const Time_Manage = () => {
         if(!jwtToken) {
             return;
         }
-        ProductService.getTime().then((data) => setProducts(data));
+        TimeService.getTime().then((res) => setProducts(res.data.AllData));
+
     }, [ jwtToken,toggleRefresh]);
 
     const openNew = () => {
@@ -71,7 +72,7 @@ const Time_Manage = () => {
         console.log("PPPP1",product)
 
         if( product.st_time && product.en_time, product._id) {
-            ProductService.editTime(
+            TimeService.editTime(
                 product.st_time,
                 product.en_time,
                 product._id,
@@ -81,7 +82,7 @@ const Time_Manage = () => {
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Time is Updated', life: 3000 });
             })
         } else if( product.st_time && product.en_time) {
-            ProductService.postTime(
+            TimeService.postTime(
                 product.st_time,
                 product.en_time,
             ).then(() => {
@@ -105,7 +106,7 @@ const Time_Manage = () => {
     };
 
     const deleteProduct = () => {
-        ProductService.deleteTime(product._id).then(() => {
+        TimeService.deleteTime(product._id).then(() => {
             setTogleRefresh(!toggleRefresh);
             setDeleteProductDialog(false);
             setProduct(emptyProduct);
@@ -160,7 +161,7 @@ const Time_Manage = () => {
                 if (rowData.is_active == '0') {
                     is_active = '1'
                 }
-                ProductService.toggleTime(is_active, rowData._id).then(() => {
+                TimeService.toggleTime(is_active, rowData._id).then(() => {
                 setTogleRefresh(!toggleRefresh)
                 })
              }} />

@@ -1,6 +1,7 @@
 const followUpSc = require("../models/followUpSc");
 const patientSc = require("../models/patientSc");
 const smsSc = require("../models/smsSc");
+const { send_sms } = require("../sms_api/smsApi");
 
 const postFollow = async(req, res) => {
     const chamber = req.body.chamber;

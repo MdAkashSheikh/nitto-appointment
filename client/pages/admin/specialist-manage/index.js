@@ -9,10 +9,10 @@ import { ToggleButton } from 'primereact/togglebutton';
 import { Toolbar } from 'primereact/toolbar';
 import { classNames } from 'primereact/utils';
 import React, { useEffect, useRef, useState } from 'react';
-import { ProductService } from '../../../demo/service/ProductService';
 import { getJWT } from '../../../admin-utils/utils';
+import { SpecializationService } from '../../../demo/service/SpecializationService';
 
-const Chamber_Manage = () => {
+const Special_Manage = () => {
     let emptyProduct = {
         id: 0,
         specialist: '',
@@ -48,7 +48,8 @@ const Chamber_Manage = () => {
             return;
         } 
 
-        ProductService.getSpecialist().then((data) => setProducts(data));
+        SpecializationService.getSpecial().then((res) => setProducts(res.data.AllData));
+
     }, [jwtToken, toggleRefresh]);
 
     const openNew = () => {
@@ -74,7 +75,7 @@ const Chamber_Manage = () => {
         setSubmitted(true);
 
         if( product.specialist, product.details, product._id ) {
-            ProductService.editSpecialist(
+            SpecializationService.editSpecial(
 
                 product.specialist,
                 product.details,
@@ -86,7 +87,7 @@ const Chamber_Manage = () => {
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Specialization is Updated', life: 3000 });
             })
         } else if( product.specialist ) {
-            ProductService.postSpecialist(
+            SpecializationService.postSpecial(
 
                 product.specialist,
                 product.details,
@@ -110,7 +111,7 @@ const Chamber_Manage = () => {
     };
 
     const deleteProduct = () => {
-        ProductService.deleteSpecialist(product._id).then(() => {
+        SpecializationService.deleteSpecial(product._id).then(() => {
             setTogleRefresh(!toggleRefresh);
             setDeleteProductDialog(false);
             setProduct(emptyProduct);
@@ -161,7 +162,7 @@ const Chamber_Manage = () => {
                 if (rowData.is_active == '0') {
                     is_active = '1'
                 }
-                ProductService.toggleSpecialist(is_active, rowData._id).then(() => {
+                SpecializationService.toggleSpecial(is_active, rowData._id).then(() => {
                 setTogleRefresh(!toggleRefresh)
                 })
              }} />
@@ -346,4 +347,4 @@ const Chamber_Manage = () => {
     );
 };
 
-export default  Chamber_Manage;
+export default  Special_Manage;

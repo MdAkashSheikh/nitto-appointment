@@ -9,8 +9,10 @@ import { Skeleton } from 'primereact/skeleton';
 import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import React, { useEffect, useRef, useState } from 'react';
-import { ProductService } from '../../../demo/service/ProductService';
 import { getJWT } from '../../../admin-utils/utils';
+import { PatientService } from '../../../demo/service/PatientService';
+import { FollowUpServices } from '../../../demo/service/FollowUpService';
+import { OperatorService } from '../../../demo/service/OperatorService';
 
 const All_Data = () => {
 
@@ -77,10 +79,10 @@ const All_Data = () => {
         if(!jwtToken) {
             return;
         }
-        
-        ProductService.getProducts().then((data) => setProducts(data));
-        ProductService.getFollow().then((data) => setFollowData(data));
-        ProductService.getOperator().then((data) => setOperatorData(data));
+
+        PatientService.getPatient().then((res) => setProducts(res.data.AllData));
+        FollowUpServices.getFollow().then((res) => setFollowData(res.data.AllData));
+        OperatorService.getOperator().then((res) => setOperatorData(res.data.AllData));
     
     }, [jwtToken, globalFilter, toggleRefresh]);
 
@@ -101,7 +103,7 @@ const All_Data = () => {
         let doctorNumber = doctorFilter?.map(item => item.phone).toString();
 
         if(smsData.chamber, smsData.followUpDate, smsData.doctor, smsData.name, smsData.phone, doctorNumber, smsData._id) {
-            ProductService.successFSms(
+            FollowUpServices.postFollowSMS(
                 smsData.chamber,
                 smsData.followUpDate,
                 smsData.doctor,

@@ -11,6 +11,7 @@ import { classNames } from 'primereact/utils';
 import React, { useEffect, useRef, useState } from 'react';
 import { ProductService } from '../../../demo/service/ProductService';
 import { getJWT } from '../../../admin-utils/utils';
+import { ChamberService } from '../../../demo/service/ChamberService';
 
 
 const Chamber_Manage = () => {
@@ -50,7 +51,9 @@ const Chamber_Manage = () => {
             return;
         }
 
-        ProductService.getChamber().then((data) => setProducts(data));
+        ChamberService.getChamber().then((res) => setProducts(res.data.AllData));
+        // ProductService.getChamber().then((data) => setProducts(data));
+    
     }, [jwtToken, toggleRefresh]);
 
     const openNew = () => {
