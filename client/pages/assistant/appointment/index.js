@@ -17,6 +17,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ProductService } from '../../../demo/service/ProductService';
 
 import { getJWT, getUserName } from '../../../utils/utils';
+import { URL } from '../../../demo/service/PatientService';
 
 const Appointment = () => {
     let emptyProduct = {
@@ -1072,7 +1073,8 @@ const Appointment = () => {
                                 multiple 
                                 accept="image/*" 
                                 name='photo'
-                                url='//localhost:5000/follow-image'
+                                // url='//localhost:5000/follow-image'
+                                url={`${URL}/post-follow-image`}
                                 maxFileSize={1000000} 
                                 emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>} 
                                 onUpload={(e)=> { 

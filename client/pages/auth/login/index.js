@@ -7,13 +7,11 @@ import { Password } from 'primereact/password';
 import { Toast } from 'primereact/toast';
 import { classNames } from 'primereact/utils';
 import React, { useContext, useRef, useState } from 'react';
-import { baseUrl } from '../../../demo/service/ProductService';
 import AppConfig from '../../../layout/AppConfig';
 import { LayoutContext } from '../../../layout/context/layoutcontext';
 import { getJWT, saveJWT } from '../../../admin-utils/utils';
 import { URL } from '../../../demo/service/PatientService';
 
-URL
 const LoginPage = () => {
     const toast = useRef();
     const router = useRouter();

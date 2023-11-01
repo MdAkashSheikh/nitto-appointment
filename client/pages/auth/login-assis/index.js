@@ -10,11 +10,7 @@ import React, { useContext, useRef, useState } from 'react';
 import AppConfig from '../../../layout/AppConfig';
 import { LayoutContext } from '../../../layout/context/layoutcontext';
 import { getJWT, saveJWT, saveUserName } from '../../../utils/utils';
-
-//server: 36.255.69.40
-const baseUrl = '//localhost:5000';
-
-
+import { URL } from '../../../demo/service/PatientService';
 
 const LoginPage = () => {
     const toast = useRef();
@@ -29,7 +25,7 @@ const LoginPage = () => {
         e.preventDefault();
 
         try {
-            const res = await axios.post(`${baseUrl}/login-assistant`, { userName, password });
+            const res = await axios.post(`${URL}/login-assistant`, { userName, password });
             const token = res.data.token;
             const jwtUserName = res.data.userName1;
             console.log('res', res);
