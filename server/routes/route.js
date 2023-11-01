@@ -73,6 +73,11 @@ const {
     deleteSMS
 } = require('../controllers/smsTem');
 
+const { 
+    superAdmin, 
+    assistAdmin 
+} = require('../controllers/auth');
+
 const router = express.Router();
 
 //For File Upload
@@ -149,5 +154,8 @@ router.post('/edit-sms/:id', editSMS);
 router.get('/get-sms', getSMS);
 router.delete('/delete-sms/:id', deleteSMS);
 
+//LOGIN Route URL
+router.post('/super-admin', superAdmin);
+router.post('/login-assistant', assistAdmin);
 
 module.exports = router;

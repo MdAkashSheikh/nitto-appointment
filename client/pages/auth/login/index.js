@@ -11,8 +11,9 @@ import { baseUrl } from '../../../demo/service/ProductService';
 import AppConfig from '../../../layout/AppConfig';
 import { LayoutContext } from '../../../layout/context/layoutcontext';
 import { getJWT, saveJWT } from '../../../admin-utils/utils';
+import { URL } from '../../../demo/service/PatientService';
 
-
+URL
 const LoginPage = () => {
     const toast = useRef();
     const router = useRouter();
@@ -25,7 +26,7 @@ const LoginPage = () => {
         e.preventDefault();
 
         try {
-            const res = await axios.post(`${baseUrl}/super-admin`, {userName, password});
+            const res = await axios.post(`${URL}/super-admin`, {userName, password});
             const token = res.data.token;
             saveJWT(token);
             console.log("token", getJWT())
