@@ -9,7 +9,7 @@ import { classNames } from 'primereact/utils';
 import React, { useContext, useRef, useState } from 'react';
 import AppConfig from '../../../layout/AppConfig';
 import { LayoutContext } from '../../../layout/context/layoutcontext';
-import { getJWT, saveJWT, saveUserName } from '../../../utils/utils';
+import { getJWT, saveDoctor, saveJWT, saveRole, saveUserName } from '../../../utils/utils';
 import { URL } from '../../../demo/service/PatientService';
 
 const LoginPage = () => {
@@ -31,8 +31,9 @@ const LoginPage = () => {
             console.log('res', res);
             saveJWT(token)
             saveUserName(jwtUserName);
+            saveDoctor('doctor');
             console.log('token', getJWT())
-            router.push('/assistant/appointment')
+            router.push('/doctor')
         } catch (err) {
             console.log(err)
             toast.current.show({ severity: 'error', summary: 'Credintial is not correct' });

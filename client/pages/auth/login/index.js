@@ -9,7 +9,7 @@ import { classNames } from 'primereact/utils';
 import React, { useContext, useRef, useState } from 'react';
 import AppConfig from '../../../layout/AppConfig';
 import { LayoutContext } from '../../../layout/context/layoutcontext';
-import { getJWT, saveJWT } from '../../../admin-utils/utils';
+import { getJWT, saveAdmin, saveJWT, saveRole } from '../../../admin-utils/utils';
 import { URL } from '../../../demo/service/PatientService';
 
 const LoginPage = () => {
@@ -27,6 +27,7 @@ const LoginPage = () => {
             const res = await axios.post(`${URL}/super-admin`, {userName, password});
             const token = res.data.token;
             saveJWT(token);
+            saveAdmin('admin');
             console.log("token", getJWT())
 
             router.push('/home')

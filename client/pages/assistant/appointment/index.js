@@ -90,7 +90,7 @@ const Appointment = () => {
         const user = getUserName();
 
         if(!jwtToken) {
-            return window.location = '/'
+            return window.location = '/auth/login-assis'
         }
 
         setJwtToken(jwtToken);

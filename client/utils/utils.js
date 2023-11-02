@@ -13,7 +13,17 @@ export function saveUserName(userName) {
 export function getUserName() {
     return window.localStorage.getItem('jwtUserName');
 }
+
+export function saveDoctor(role) {
+    window.localStorage.setItem('jwtDoctor', role);
+}
+
+export function getDoctor() {
+    return window.localStorage.getItem('jwtDoctor');
+}
+
 export function deleteToken() {
     window.localStorage.removeItem('jwt_token_assist');
     window.localStorage.removeItem('jwtUserName');
+    window.localStorage.removeItem('jwtDoctor');
 }

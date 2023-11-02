@@ -2,11 +2,25 @@ import React, { useContext } from 'react';
 import AppMenuitem from './AppMenuitem';
 import { LayoutContext } from './context/layoutcontext';
 import { MenuProvider } from './context/menucontext';
+import { getDoctor } from '../utils/utils';
+import { getAdmin } from '../admin-utils/utils';
 
 const AppMenu = () => {
     const { layoutConfig } = useContext(LayoutContext);
+    const doctorRole = getDoctor();
+    const adminRole = getAdmin();
 
-    const userType = 'admin';
+    let userType;
+    console.log('ADMIN', adminRole);
+    console.log('DOCTOR', doctorRole);
+    if(doctorRole) {
+        userType = doctorRole;
+    }
+    
+    if(adminRole) {
+        userType = adminRole;
+    }
+
     let model = [];
 
     if(userType == 'admin') {
@@ -121,7 +135,7 @@ const AppMenu = () => {
                 ],
             },
         ];
-    } else if(userType == 'doctor') {
+    } else if( userType == 'doctor') {
         model = [
             {
                 label: "Home",
@@ -129,7 +143,7 @@ const AppMenu = () => {
                     {
                         label: "Visit Details",
                         icon: "pi pi-database",
-                        to: '/admin/follow-data'
+                        to: '/assistant/follow-data'
                     }
                 ]
             },
@@ -139,7 +153,7 @@ const AppMenu = () => {
                     {
                         label: "Appointment List",
                         icon: "pi pi-fw pi-list",
-                        to: "/admin/appointment-list",
+                        to: "/assistant/appointment",
                     }
                 ]
             }
