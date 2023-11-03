@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AppMenuitem from './AppMenuitem';
 import { LayoutContext } from './context/layoutcontext';
 import { MenuProvider } from './context/menucontext';
@@ -7,18 +7,28 @@ import { getAdmin } from '../admin-utils/utils';
 
 const AppMenu = () => {
     const { layoutConfig } = useContext(LayoutContext);
-    const doctorRole = getDoctor();
-    const adminRole = getAdmin();
+    const [doctor1, setDoctor1] = useState(null);
+    const [admin1, setAkdmin1] = useState(null);
+
+    useEffect(() => {
+        const doctorRole = getDoctor()
+        const adminRole = getAdmin()
+
+        setDoctor1(doctorRole);
+        setAkdmin1(adminRole);
+
+    }, []);
+    
 
     let userType;
-    console.log('ADMIN', adminRole);
-    console.log('DOCTOR', doctorRole);
-    if(doctorRole) {
-        userType = doctorRole;
+    console.log('ADMIN', admin1);
+    console.log('DOCTOR', doctor1);
+    if(doctor1) {
+        userType = doctor1;
     }
     
-    if(adminRole) {
-        userType = adminRole;
+    if(admin1) {
+        userType = admin1;
     }
 
     let model = [];
