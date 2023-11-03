@@ -122,6 +122,7 @@ const postFollowSMS = async(req, res) => {
             .replaceAll("cNumber", doctorNumber)
 
         send_sms(phone, smsReplace);
+
         res.send(oneData);
 
     } catch (err) {

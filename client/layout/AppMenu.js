@@ -8,14 +8,14 @@ import { getAdmin } from '../admin-utils/utils';
 const AppMenu = () => {
     const { layoutConfig } = useContext(LayoutContext);
     const [doctor1, setDoctor1] = useState(null);
-    const [admin1, setAkdmin1] = useState(null);
+    const [admin1, setAdmin1] = useState(null);
 
     useEffect(() => {
         const doctorRole = getDoctor()
         const adminRole = getAdmin()
 
         setDoctor1(doctorRole);
-        setAkdmin1(adminRole);
+        setAdmin1(adminRole);
 
     }, []);
     

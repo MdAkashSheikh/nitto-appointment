@@ -47,6 +47,7 @@ const Dashboard = () => {
         setJwtToken(jwtToken);
     }, [])
 
+    console.log(jwtToken, "JWT TOKEN")
     const applyLightTheme = () => {
         const lineOptions = {
             plugins: {
