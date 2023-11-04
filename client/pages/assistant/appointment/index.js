@@ -1073,8 +1073,8 @@ const Appointment = () => {
                                 multiple 
                                 accept="image/*" 
                                 name='photo'
-                                // url='//localhost:5000/follow-image'
-                                url={`${URL}/post-follow-image`}
+                                url='//localhost:5000/post-follow-image'
+                                // url={`${URL}/post-follow-image`}
                                 maxFileSize={1000000} 
                                 emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>} 
                                 onUpload={(e)=> { 

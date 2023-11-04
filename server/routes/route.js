@@ -1,6 +1,9 @@
 const express = require('express');
 const path = require('path');
+const app = express();
+
 let multer = require('multer');
+
 
 const { 
     postPatient, 
@@ -80,6 +83,10 @@ const {
 
 const router = express.Router();
 
+app.use(express.static('public'))
+app.use(express.static('files'))
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+
 //For File Upload
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -123,7 +130,7 @@ router.post('/post-follow', postFollow);
 router.post('/edit-follow/:id', editFollow);
 router.post('/post-follow-image', upload.array('photo', 10), postFollowImage);
 router.get('/get-follow', getFollow);
-router.get('/get-follow-image/:filename', getFollowImage);
+router.get('/image/:filename', getFollowImage);
 router.post('/post-follow-sms/:id', postFollowSMS);
 router.post('/edit-patient-follow/:id', editPatientFollow);
 
