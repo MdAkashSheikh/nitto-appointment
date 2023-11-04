@@ -1,9 +1,7 @@
 const express = require('express');
 const path = require('path');
-const app = express();
 
 let multer = require('multer');
-
 
 const { 
     postPatient, 
@@ -83,9 +81,9 @@ const {
 
 const router = express.Router();
 
-app.use(express.static('public'))
-app.use(express.static('files'))
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+router.use(express.static('public'))
+router.use(express.static('files'))
+router.use('/uploads', express.static(path.join(__dirname, "..", 'uploads')))
 
 //For File Upload
 var storage = multer.diskStorage({
