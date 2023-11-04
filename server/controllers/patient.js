@@ -101,6 +101,11 @@ const editPatient = async(req, res) => {
     const smsData1 = smsData.sms1;
 
     try {
+        if(serial) {
+            const response = await send_sms(phone1, smsReplace);
+            console.log(response, "RESPOse")
+        }
+        
         const oneData = await patientSc.findByIdAndUpdate(id, {
             "chamber": chamber,
             "specialist": specialist,
@@ -123,9 +128,7 @@ const editPatient = async(req, res) => {
             .replaceAll("time", time1)
             .replaceAll("chamber", chamber)
 
-        if(serial) {
-            send_sms(phone1, smsReplace);
-        }
+        
 
         
         res.send(oneData);
