@@ -15,7 +15,7 @@ import { Toolbar } from 'primereact/toolbar';
 import { classNames } from 'primereact/utils';
 import React, { useEffect, useRef, useState } from 'react';
 import { ProductService, baseUrl } from '../../../demo/service/ProductService';
-import { getJWT } from '../../../admin-utils/utils';
+import { getJWTAdmin } from '../../../admin-utils/utils';
 import { PatientService } from '../../../demo/service/PatientService';
 import { ChamberService } from '../../../demo/service/ChamberService';
 import { DoctorService } from '../../../demo/service/DoctorService';
@@ -87,7 +87,7 @@ const Appointment = () => {
     const timeObj = [];
 
     useEffect(() => {
-        const jwtToken = getJWT();
+        const jwtToken = getJWTAdmin();
 
         if(!jwtToken) {
             return window.location = '/auth/login'

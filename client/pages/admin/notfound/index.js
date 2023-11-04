@@ -1,10 +1,36 @@
 import { useRouter } from 'next/router';
 import { Button } from 'primereact/button';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AppConfig from '../../../layout/AppConfig';
+import { getDoctor } from '../../../utils/utils';
+import { getAdmin } from '../../../admin-utils/utils';
 
 const NotFoundPage = () => {
+
+    const [doctor1, setDoctor1] = useState(null);
+    const [admin1, setAdmin1] = useState(null);
+
+    useEffect(() => {
+        const doctorRole = getDoctor();
+        const adminRole = getAdmin();
+
+        setDoctor1(doctorRole);
+        setAdmin1(adminRole);
+
+    }, []);
     const router = useRouter();
+
+    const handleRouter = async() => {
+        if(doctor1) {
+            router.push('/doctor');
+        }
+        else if(admin1) {
+            router.push('/home');
+        } else {
+            router.push('/auth/login');
+        }
+    }
+    
     return (
         <div className="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
             <div className="flex flex-column align-items-center justify-content-center">
@@ -14,7 +40,7 @@ const NotFoundPage = () => {
                         <span className="text-blue-500 font-bold text-3xl">404</span>
                         <h1 className="text-900 font-bold text-5xl mb-2">Not Found</h1>
                         <div className="text-600 mb-5">Requested resource is not available</div>
-                        <Button icon="pi pi-arrow-left" label="Go to Dashboard" text onClick={() => router.push('/home')} />
+                        <Button icon="pi pi-arrow-left" label="Go to Dashboard" text onClick={handleRouter} />
                     </div>
                 </div>
             </div>

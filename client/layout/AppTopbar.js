@@ -1,21 +1,35 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { classNames } from 'primereact/utils';
 import React, { forwardRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { deleteToken, getJWT } from '../admin-utils/utils';
-// import { getJWT } from '../../../admin-utils/utils';
+import { deleteAdminToken, getAdmin, getJWTAdmin } from '../admin-utils/utils';
+// import { getJWTAdmin } from '../../../admin-utils/utils';
 import { LayoutContext } from './context/layoutcontext';
+import { deleteDoctorToken, getDoctor, getJWTDoctor } from '../utils/utils';
 
 const AppTopbar = forwardRef((props, ref) => {
+
+    const router = useRouter();
     const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } = useContext(LayoutContext);
     const menubuttonRef = useRef(null);
     const topbarmenuRef = useRef(null);
     const topbarmenubuttonRef = useRef(null);
     const toast = useRef(null);
-    const [jwtToken, setJwtToken] = useState(null);
+    const [jwtTokenDoctor, setJwtTokenDoctor] = useState(null);
+    const [jwtTokenAdmin, setJwtTokenAdmin] = useState(null);
+    const [jwtDoctor, setJwtDoctor] = useState(null);
+    const [jwtAdmin, setJwtAdmin] = useState(null);
 
     useEffect(() => {
-        const jwtToken = getJWT();
-        setJwtToken(jwtToken);
+        const jwtDoctorT = getJWTDoctor();
+        const jwtAdminT = getJWTAdmin();
+        const jwtD = getDoctor();
+        const jwtA = getAdmin();
+
+        setJwtTokenDoctor(jwtDoctorT);
+        setJwtTokenAdmin(jwtAdminT);
+        setJwtDoctor(jwtD);
+        setJwtAdmin(jwtA);
     })
 
     useImperativeHandle(ref, () => ({
@@ -25,8 +39,14 @@ const AppTopbar = forwardRef((props, ref) => {
     }));
 
     const handleLogOut = () => {
-        console.log("LOGOUT");
-        deleteToken(jwtToken);
+        if(jwtAdmin && jwtTokenAdmin) {
+            deleteAdminToken();
+            router.push('/auth/login');
+        }
+        else if(jwtDoctor && jwtTokenDoctor) {
+            deleteDoctorToken();
+            router.push('/auth/login-assis')
+        }
     }
 
     return (
@@ -51,12 +71,10 @@ const AppTopbar = forwardRef((props, ref) => {
                     <span>Profile</span>
                 </button>
                 
-                <Link href="/auth/login">
-                    <button type="button" className="p-link layout-topbar-button" onClick={handleLogOut}>
-                        <i className="pi pi-lock"></i>
-                        <span>LogOut</span>
-                    </button>
-                </Link>
+                <button type="button" className="p-link layout-topbar-button" onClick={handleLogOut}>
+                    <i className="pi pi-lock"></i>
+                    <span>LogOut</span>
+                </button>
             </div>
         </div>
     );

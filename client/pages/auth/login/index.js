@@ -9,7 +9,7 @@ import { classNames } from 'primereact/utils';
 import React, { useContext, useRef, useState } from 'react';
 import AppConfig from '../../../layout/AppConfig';
 import { LayoutContext } from '../../../layout/context/layoutcontext';
-import { getJWT, saveAdmin, saveJWT, saveRole } from '../../../admin-utils/utils';
+import { getJWTAdmin, saveAdmin, saveJWTAdmin, saveRole } from '../../../admin-utils/utils';
 import { URL } from '../../../demo/service/PatientService';
 
 const LoginPage = () => {
@@ -26,17 +26,20 @@ const LoginPage = () => {
         try {
             const res = await axios.post(`${URL}/super-admin`, {userName, password});
             const token = res.data.token;
-            saveJWT(token);
+            saveJWTAdmin(token);
             saveAdmin('admin');
-            console.log("token", getJWT())
+            console.log("token", getJWTAdmin())
 
             router.push('/home')
         } catch (err) {
             console.log(err);
-            toast.current.show({ severity: 'error', summary: 'Credintial is not correct' });
+            toast.current.show({ severity: 'error', summary: 'Credintial is Wrong' });
         }
     }
 
+    const handleRouter = () => {
+        router.push('/auth/login-assis')
+    }
     
 
     
@@ -50,7 +53,7 @@ const LoginPage = () => {
                     <div className="w-full surface-card py-8 px-5 sm:px-8" style={{ borderRadius: '53px' }}>
                         <div className="text-center mb-5">
                             {/* <img src="/demo/images/login/avatar.png" alt="Image" height="50" className="mb-3" /> */}
-                            <div className="text-900 text-3xl font-medium mb-3">Welcome, Nitto</div>
+                            <div className="text-900 text-3xl font-medium mb-3">Welcome, Nitto Admin</div>
                             <span className="text-600 font-medium">Sign in for Admin</span>
                         </div>
 
@@ -78,6 +81,7 @@ const LoginPage = () => {
                             </div>
                             <Button label="Sign In" className="w-full p-3 text-xl"></Button>
                         </form>
+                        <Button className='mt-2' label="Go to Doctor Login Page" icon="pi pi-arrow-right" text onClick={handleRouter} />
                     </div>
                 </div>
             </div>

@@ -11,7 +11,7 @@ import { Toolbar } from 'primereact/toolbar';
 import { classNames } from 'primereact/utils';
 import React, { useEffect, useRef, useState } from 'react';
 import { ProductService } from '../../../demo/service/ProductService';
-import { getJWT } from '../../../admin-utils/utils';
+import { getJWTAdmin } from '../../../admin-utils/utils';
 
 
 const Chamber_Manage = () => {
@@ -38,7 +38,7 @@ const Chamber_Manage = () => {
     const [jwtToken, setJwtToken] = useState(null);
 
     useEffect(() => {
-        const jwtToken = getJWT();
+        const jwtToken = getJWTAdmin();
 
         if(!jwtToken) {
             return window.location = '/auth/login'

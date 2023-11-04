@@ -10,7 +10,7 @@ import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import { classNames } from 'primereact/utils';
 import React, { useEffect, useRef, useState } from 'react';
-import { getJWT } from '../../../admin-utils/utils';
+import { getJWTAdmin } from '../../../admin-utils/utils';
 import { OperatorService } from '../../../demo/service/OperatorService';
 import { DoctorService } from '../../../demo/service/DoctorService';
 
@@ -39,7 +39,7 @@ const Operator = () => {
     const [jwtToken, setJwtToken] = useState(null);
 
     useEffect(() => {
-        const jwtToken = getJWT();
+        const jwtToken = getJWTAdmin();
 
         if(!jwtToken) {
             return window.location = '/auth/login'

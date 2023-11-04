@@ -9,7 +9,7 @@ import { Skeleton } from 'primereact/skeleton';
 import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import React, { useEffect, useRef, useState } from 'react';
-import { getJWT } from '../../../admin-utils/utils';
+import { getJWTAdmin } from '../../../admin-utils/utils';
 import { PatientService } from '../../../demo/service/PatientService';
 import { FollowUpServices } from '../../../demo/service/FollowUpService';
 import { OperatorService } from '../../../demo/service/OperatorService';
@@ -37,7 +37,7 @@ const All_Data = () => {
     const [jwtToken, setJwtToken] = useState(null);
 
     useEffect(() => {
-        const jwtToken = getJWT();
+        const jwtToken = getJWTAdmin();
 
         if(!jwtToken) {
             return window.location = '/auth/login'

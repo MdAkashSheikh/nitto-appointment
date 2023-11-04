@@ -11,7 +11,7 @@ import { Toolbar } from 'primereact/toolbar';
 import { classNames } from 'primereact/utils';
 import React, { useEffect, useRef, useState } from 'react';
 import { ProductService } from '../../../demo/service/ProductService';
-import { getJWT } from '../../../admin-utils/utils';
+import { getJWTAdmin } from '../../../admin-utils/utils';
 import { AvailableService } from '../../../demo/service/AvailableService';
 import { DoctorService } from '../../../demo/service/DoctorService';
 import { ChamberService } from '../../../demo/service/ChamberService';
@@ -51,7 +51,7 @@ const Availability_Manage = () => {
     const [jwtToken, setJwtToken] = useState(null);
 
     useEffect(() => {
-        const jwtToken = getJWT();
+        const jwtToken = getJWTAdmin();
 
         if(!jwtToken) {
             return window.location = '/auth/login'

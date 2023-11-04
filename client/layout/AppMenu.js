@@ -153,7 +153,7 @@ const AppMenu = () => {
                     {
                         label: "Visit Details",
                         icon: "pi pi-database",
-                        to: '/assistant/follow-data'
+                        to: '/assistant/visit-details'
                     }
                 ]
             },

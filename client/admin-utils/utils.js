@@ -1,8 +1,8 @@
-export function saveJWT(jwtToken) {
+export function saveJWTAdmin(jwtToken) {
     window.localStorage.setItem('jwt_token_admin', jwtToken);
 }
 
-export function getJWT() {
+export function getJWTAdmin() {
     return window.localStorage.getItem('jwt_token_admin');
 }
 
@@ -14,7 +14,7 @@ export function getAdmin() {
     return window.localStorage.getItem('jwtAdmin');  //Role check Admin or Doctor
 }
 
-export function deleteToken() {
+export function deleteAdminToken() {
     window.localStorage.removeItem('jwt_token_admin');
     window.localStorage.removeItem('jwtAdmin');
 }

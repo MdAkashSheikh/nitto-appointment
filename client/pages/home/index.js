@@ -4,7 +4,7 @@ import { Chart } from 'primereact/chart';
 import { Menu } from 'primereact/menu';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { LayoutContext } from '../../layout/context/layoutcontext';
-import { getJWT } from '../../admin-utils/utils';
+import { getJWTAdmin } from '../../admin-utils/utils';
 const lineData = {
 
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -38,7 +38,7 @@ const Dashboard = () => {
     const [jwtToken, setJwtToken] = useState(null);
 
     useEffect(() => {
-        const jwtToken = getJWT();
+        const jwtToken = getJWTAdmin();
 
         if(!jwtToken) {
             return window.location = '/auth/login'

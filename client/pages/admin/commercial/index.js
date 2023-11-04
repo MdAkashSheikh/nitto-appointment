@@ -9,7 +9,7 @@ import { Skeleton } from 'primereact/skeleton';
 import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import React, { useEffect, useRef, useState } from 'react';
-import { getJWT } from '../../../admin-utils/utils';
+import { getJWTAdmin } from '../../../admin-utils/utils';
 import { PatientService } from '../../../demo/service/PatientService';
 import { FollowUpServices } from '../../../demo/service/FollowUpService';
 import { DoctorService } from '../../../demo/service/DoctorService';
@@ -32,7 +32,7 @@ const All_Data = () => {
     const [totalPrice, setTotalPrice] = useState(0)
 
     useEffect(() => {
-        const jwtToken = getJWT();
+        const jwtToken = getJWTAdmin();
 
         if(!jwtToken) {
             return window.location = '/auth/login'
