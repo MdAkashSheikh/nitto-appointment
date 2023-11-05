@@ -49,6 +49,13 @@ const AppTopbar = forwardRef((props, ref) => {
         }
     }
 
+    const handleProfile = () => {
+        if(jwtDoctor && jwtTokenDoctor) {
+            router.push('/assistant/profile')
+        }
+    }
+
+
     return (
         <div className="layout-topbar">
             <Link href="/home" className="layout-topbar-logo">
@@ -66,7 +73,7 @@ const AppTopbar = forwardRef((props, ref) => {
 
             <div ref={topbarmenuRef} className={classNames('layout-topbar-menu', { 'layout-topbar-menu-mobile-active': layoutState.profileSidebarVisible })}>
 
-                <button type="button" className="p-link layout-topbar-button">
+                <button type="button" className="p-link layout-topbar-button" onClick={handleProfile}>
                     <i className="pi pi-user"></i>
                     <span>Profile</span>
                 </button>

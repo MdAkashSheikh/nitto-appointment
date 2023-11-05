@@ -98,7 +98,7 @@ const getFollowImage = (req, res) => {
 
 const postFollowSMS = async(req, res) => {
     const id = req.params.id;
-    let is_active;
+    const is_active = req.body.is_active;
     const phone = req.body.phone;
     const chamber = req.body.chamber;
     const doctor = req.body.doctor;
@@ -118,14 +118,8 @@ const postFollowSMS = async(req, res) => {
             .replaceAll("doctor", doctor)
             .replaceAll("cNumber", doctorNumber)
 
-        const res = await send_sms(phone, smsReplace);
-        console.log(res, "Response", res.response_code)
-        if(res.response_code == 202) {
-            is_active = "Successfully Sent";
-        }
-        else {
-            is_active = "Not Sent"
-        }
+        send_sms(phone, smsReplace);
+
         const oneData = await followUpSc.findByIdAndUpdate(id, {
             "is_active": is_active,
         })
