@@ -12,7 +12,7 @@ export const DoctorService = {
             experience,
         }
 
-        await axios.post(`${URL}/post-patient`, data);
+        await axios.post(`${URL}/post-doctor`, data);
     },
 
     async editDoctor(name, specialist, designation, degree, experience, _id) {
