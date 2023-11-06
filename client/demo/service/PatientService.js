@@ -3,6 +3,25 @@ export const URL = '//localhost:5000';
 
 export const PatientService = {
 
+    async postPatientC(chamber, specialist, doctor, date1, time1, name, age, gender, phone, details) {
+
+        const data = {
+            chamber,
+            specialist,
+            doctor,
+            date1,
+            time1,
+            name,
+            age,
+            gender,
+            phone,
+            details,
+            status: "NotUpdate",
+        }
+
+        await axios.post(`${URL}/post-patient`, data)
+    },
+
     async postPatient(chamber, specialist, doctor, date1, time1, name, age, gender, phone, details, serial) {
         
         console.log("Check--1");

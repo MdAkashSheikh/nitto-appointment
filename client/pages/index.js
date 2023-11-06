@@ -12,7 +12,12 @@ import { Toast } from 'primereact/toast';
 import AppConfig from '../layout/AppConfig';
 import { LayoutContext } from '../layout/context/layoutcontext';
 import { classNames } from 'primereact/utils';
-import { ProductService } from '../demo/service/ProductService';
+import { ChamberService } from '../demo/service/ChamberService';
+import { SpecializationService } from '../demo/service/SpecializationService';
+import { DoctorService } from '../demo/service/DoctorService';
+import { TimeService } from '../demo/service/TimeService';
+import { AvailableService } from '../demo/service/AvailableService';
+import { PatientService } from '../demo/service/PatientService';
 
 const LandingPage = () => {
     const [isHidden, setIsHidden] = useState(false);
@@ -55,14 +60,15 @@ const LandingPage = () => {
     const timeObj = [];
 
     useEffect(() => {
-        ProductService.getChamber().then((data) => setMasterChamber(data));
-        ProductService.getSpecialist().then((data) => setMasterSpecialist(data));
-        ProductService.getDoctor().then((data) => setMasterDoctor(data));
-        ProductService.getTime().then((data) => setMasterTime(data));
-        ProductService.getAvailable().then((data) => {
-            setMsAvailable(data)
-            setMasterAvailable(data);
-        });
+        ChamberService.getChamber().then((res) => setMasterChamber(res.data.AllData));
+        SpecializationService.getSpecial().then((res) => setMasterSpecialist(res.data.AllData));
+        DoctorService.getDoctor().then((res) => setMasterDoctor(res.data.AllData));
+        TimeService.getTime().then((res) => setMasterTime(res.data.AllData));
+        AvailableService.getAvail().then((res) => {
+            setMasterAvailable(res.data.AllData)
+            setMsAvailable(res.data.AllData);
+        })
+
     }, [toggleRefresh])
 
     const { control, reset } = useForm({ emptyPatient })
@@ -71,7 +77,7 @@ const LandingPage = () => {
         setSubmitted(true);
 
         if(patient.chamber && patient.specialist && patient.doctor && patient.date1 && patient.time1 && patient.name && patient.phone) {
-            ProductService.postClient(
+            PatientService.postPatientC(
                 patient.chamber,
                 patient.specialist,
                 patient.doctor,
