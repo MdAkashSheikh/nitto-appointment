@@ -10,7 +10,7 @@ import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import React, { useEffect, useRef, useState } from 'react';
 import { getJWTAdmin } from '../../../admin-utils/utils';
-import { PatientService } from '../../../demo/service/PatientService';
+import { PatientService, URL } from '../../../demo/service/PatientService';
 import { FollowUpServices } from '../../../demo/service/FollowUpService';
 import { OperatorService } from '../../../demo/service/OperatorService';
 
@@ -194,7 +194,7 @@ const All_Data = () => {
 
 
     const imageBodyTemplate1 = (rowData) => {
-        const rowImages = rowData.image?.map(item => `http://localhost:5000/uploads/` + item);
+        const rowImages = rowData.image?.map(item => `${URL}/uploads/` + item);
         return (
             <>
                 <span className="p-column-title">Image</span>

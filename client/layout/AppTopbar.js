@@ -30,7 +30,7 @@ const AppTopbar = forwardRef((props, ref) => {
         setJwtTokenAdmin(jwtAdminT);
         setJwtDoctor(jwtD);
         setJwtAdmin(jwtA);
-    })
+    }, [])
 
     useImperativeHandle(ref, () => ({
         menubutton: menubuttonRef.current,

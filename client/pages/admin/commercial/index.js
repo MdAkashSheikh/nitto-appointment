@@ -146,7 +146,7 @@ const All_Data = () => {
         return (
             <>
                 <span className="p-column-title">follow Up Date</span>
-                {rowData.followUpDate.slice(0, 10)}
+                {rowData.followUpDate}
             </>
         );
     }

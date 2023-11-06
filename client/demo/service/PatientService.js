@@ -1,10 +1,12 @@
 import axios from "axios";
-export const URL = '//localhost:5000';
+//   VM -------- 103.151.61.45
+
+export const URL = '//103.151.61.45:5000';
 
 export const PatientService = {
 
     async postPatientC(chamber, specialist, doctor, date1, time1, name, age, gender, phone, details) {
-
+        console.log('POST____CLIENT SIDE')
         const data = {
             chamber,
             specialist,
@@ -23,7 +25,7 @@ export const PatientService = {
     },
 
     async postPatient(chamber, specialist, doctor, date1, time1, name, age, gender, phone, details, serial) {
-        
+        console.log('POST ADMIN')
         console.log("Check--1");
         const data =  {
             chamber,
@@ -44,6 +46,7 @@ export const PatientService = {
     },
 
     async editPatient(chamber, specialist, doctor, date1, time1, name, age, gender, phone , serial, _id, details) {
+        console.log('EDIT ADMIN')
         const data = {
             chamber,
             specialist,

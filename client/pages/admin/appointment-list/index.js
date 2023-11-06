@@ -14,9 +14,8 @@ import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import { classNames } from 'primereact/utils';
 import React, { useEffect, useRef, useState } from 'react';
-import { ProductService, baseUrl } from '../../../demo/service/ProductService';
 import { getJWTAdmin } from '../../../admin-utils/utils';
-import { PatientService } from '../../../demo/service/PatientService';
+import { PatientService, URL } from '../../../demo/service/PatientService';
 import { ChamberService } from '../../../demo/service/ChamberService';
 import { DoctorService } from '../../../demo/service/DoctorService';
 import { TimeService } from '../../../demo/service/TimeService';
@@ -1185,7 +1184,8 @@ const Appointment = () => {
                                 multiple 
                                 accept="image/*" 
                                 name='photo'
-                                url='//localhost:5000/post-follow-image'
+                                // url='//localhost:5000/post-follow-image'
+                                url={`${URL}/post-follow-image`}
                                 maxFileSize={1000000} 
                                 emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>} 
                                 onUpload={(e)=> { 
