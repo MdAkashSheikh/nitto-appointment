@@ -362,7 +362,7 @@ const LandingPage = () => {
                                 </a>
                             </li>
                             <li>
-                                <a href="#pricing" onClick={toggleMenuItemClick} className="p-ripple flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
+                                <a href="#appointment" onClick={toggleMenuItemClick} className="p-ripple flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
                                     <span>Appointment</span>
                                     <Ripple />
                                 </a>
@@ -610,229 +610,232 @@ const LandingPage = () => {
                     </div>
                 </div>
 
-                <div id="pricing" className="py-4 px-4 lg:px-8 my-2 md:my-4">
+                <div id="appointment" className="py-4 px-4 lg:px-8 my-2 md:my-4 ">
                     <div className="text-center">
                         <h2 className="text-900 font-normal mb-2">Get an online Appointment</h2>
                         {/* <span className="text-600 text-2xl">Amet consectetur adipiscing elit...</span> */}
                     </div>
                     
-                    <div className="surface-card mt-8 p-4 shadow-2 border-round w-full lg:w-4">
-                    <form control={control}>
-                    <Toast ref={toast} />
-                        <div className="formgrid grid">
-                            <div className="field col">
-                                <label htmlFor="chamber" className="font-bold block mb-3 ml-2">Chamber</label>
-                                <Dropdown
-                                    value={patient.chamber}
-                                    name='chamber'
-                                    onChange={(e) => onSelectionChange(e, "chamber")}
-                                    options={chamberList}
-                                    optionLabel="value"
-                                    showClear
-                                    placeholder="Select a Chamber"
-                                    required
-                                    // autoFocus
-                                    className={classNames({
-                                        "w-full":1,
-                                        "p-invalid": hasEmpty && !patient.chamber,
-                                    })}
-                                />
-                            </div>
-                            {hasEmpty && !patient.chamber && (
-                                <small className="p-invalid">
-                                    Chamber is required.
-                                </small>
-                            )}      
-                        </div>
-
-
-                        <div className="formgrid grid">
-                            <div className="field col">
-                                <label htmlFor="specialist" className="font-bold block mb-3 ml-2">Specialization</label>
-                                <Dropdown
-                                    value={patient.specialist}
-                                    name='specialist'
-                                    onChange={(e) => onSelectionChange(e, "specialist")}
-                                    options={specialistList}
-                                    optionLabel="label"
-                                    showClear
-                                    placeholder="Select a Specialization"
-                                    required
-                                    className={classNames({
-                                        "w-full":1,
-                                        "p-invalid": hasEmpty && !patient.specialist,
-                                    })}
-                                />
+                    <div className='flex align-items-center justify-content-center'>
+                        <div className="surface-card mt-8 p-4 shadow-2 border-round w-full lg:w-4 ">
+                        <form control={control}>
+                        <Toast ref={toast} />
+                            <div className="formgrid grid">
+                                <div className="field col">
+                                    <label htmlFor="chamber" className="font-bold block mb-3 ml-2">Chamber</label>
+                                    <Dropdown
+                                        value={patient.chamber}
+                                        name='chamber'
+                                        onChange={(e) => onSelectionChange(e, "chamber")}
+                                        options={chamberList}
+                                        optionLabel="value"
+                                        showClear
+                                        placeholder="Select a Chamber"
+                                        required
+                                        // autoFocus
+                                        className={classNames({
+                                            "w-full":1,
+                                            "p-invalid": hasEmpty && !patient.chamber,
+                                        })}
+                                    />
+                                </div>
                                 {hasEmpty && !patient.chamber && (
                                     <small className="p-invalid">
-                                        Specialization is required.
+                                        Chamber is required.
                                     </small>
-                                )}
+                                )}      
                             </div>
 
-                            <div className="field col">
-                                <label htmlFor="doctor" className="font-bold block mb-3 ml-2">Doctor</label>
-                                <Dropdown
-                                    value={patient.doctor}
-                                    name='doctor'
-                                    onChange={(e) => onSelectionChange(e, "doctor")}
-                                    options={doctorList}
-                                    optionLabel="label"
-                                    showClear
-                                    placeholder="Select a Doctor"
-                                    required
-                                    className={classNames({
-                                        "w-full":1,
-                                        "p-invalid": hasEmpty && !patient.doctor,
-                                    })}
-                                />
-                                {hasEmpty && !patient.doctor && (
-                                    <small className="p-invalid">
-                                        Doctor is required.
-                                    </small>
-                                )}
-                            </div>  
-                        </div>
-            
 
-                        <div className="formgrid grid">
-                            <div className="field col">
-                                <label htmlFor="specialist" className="font-bold block mb-3 ml-2">Appointment Date</label>
-                                <Calendar 
-                                    value={(patient.date1)}
-                                    name='date1' 
-                                    onChange={(e) => onDateChange(e, "date1")} 
-                                    dateFormat="dd/mm/yy" 
-                                    placeholder="Select a Date"
-                                    required
-                                    showIcon
-                                    className={classNames({
-                                        "p-invalid": hasEmpty && !patient.date1,
-                                    })}
-                                />
-                                {hasEmpty && !patient.specialist && (
-                                    <small className="p-invalid">
-                                        Date is required.
-                                    </small>
-                                )}
+                            <div className="formgrid grid">
+                                <div className="field col">
+                                    <label htmlFor="specialist" className="font-bold block mb-3 ml-2">Specialization</label>
+                                    <Dropdown
+                                        value={patient.specialist}
+                                        name='specialist'
+                                        onChange={(e) => onSelectionChange(e, "specialist")}
+                                        options={specialistList}
+                                        optionLabel="label"
+                                        showClear
+                                        placeholder="Select a Specialization"
+                                        required
+                                        className={classNames({
+                                            "w-full":1,
+                                            "p-invalid": hasEmpty && !patient.specialist,
+                                        })}
+                                    />
+                                    {hasEmpty && !patient.chamber && (
+                                        <small className="p-invalid">
+                                            Specialization is required.
+                                        </small>
+                                    )}
+                                </div>
+
+                                <div className="field col">
+                                    <label htmlFor="doctor" className="font-bold block mb-3 ml-2">Doctor</label>
+                                    <Dropdown
+                                        value={patient.doctor}
+                                        name='doctor'
+                                        onChange={(e) => onSelectionChange(e, "doctor")}
+                                        options={doctorList}
+                                        optionLabel="label"
+                                        showClear
+                                        placeholder="Select a Doctor"
+                                        required
+                                        className={classNames({
+                                            "w-full":1,
+                                            "p-invalid": hasEmpty && !patient.doctor,
+                                        })}
+                                    />
+                                    {hasEmpty && !patient.doctor && (
+                                        <small className="p-invalid">
+                                            Doctor is required.
+                                        </small>
+                                    )}
+                                </div>  
+                            </div>
+                
+
+                            <div className="formgrid grid">
+                                <div className="field col">
+                                    <label htmlFor="specialist" className="font-bold block mb-3 ml-2">Appointment Date</label>
+                                    <Calendar 
+                                        value={(patient.date1)}
+                                        name='date1' 
+                                        onChange={(e) => onDateChange(e, "date1")} 
+                                        dateFormat="dd/mm/yy" 
+                                        placeholder="Select a Date"
+                                        required
+                                        showIcon
+                                        className={classNames({
+                                            "p-invalid": hasEmpty && !patient.date1,
+                                        })}
+                                    />
+                                    {hasEmpty && !patient.specialist && (
+                                        <small className="p-invalid">
+                                            Date is required.
+                                        </small>
+                                    )}
+                                </div>
+
+                                <div className="field col">
+                                    <label htmlFor="time1" className="font-bold block mb-3 ml-2">Time</label>
+                                    <Dropdown
+                                        value={patient.time1}
+                                        name='time1'
+                                        onChange={(e) => onSelectionChange(e, "time1")}
+                                        options={timeList1}
+                                        optionLabel="label"
+                                        showClear
+                                        placeholder="Select a Time"
+                                        required
+                                        className={classNames({
+                                            "w-full":1,
+                                            "p-invalid": hasEmpty && !patient.time1,
+                                        })}
+                                    />
+                                    {hasEmpty && !patient.time1 && (
+                                        <small className="p-invalid">
+                                            Time is required.
+                                        </small>
+                                    )}
+                                </div>
                             </div>
 
-                            <div className="field col">
-                                <label htmlFor="time1" className="font-bold block mb-3 ml-2">Time</label>
-                                <Dropdown
-                                    value={patient.time1}
-                                    name='time1'
-                                    onChange={(e) => onSelectionChange(e, "time1")}
-                                    options={timeList1}
-                                    optionLabel="label"
-                                    showClear
-                                    placeholder="Select a Time"
-                                    required
-                                    className={classNames({
-                                        "w-full":1,
-                                        "p-invalid": hasEmpty && !patient.time1,
-                                    })}
-                                />
-                                {hasEmpty && !patient.time1 && (
-                                    <small className="p-invalid">
-                                        Time is required.
-                                    </small>
-                                )}
-                            </div>
-                        </div>
+                            <div className="formgrid grid">
+                                <div className="field col">
+                                    <label htmlFor="name" className="font-bold block mb-3 ml-2">Name</label>
+                                    <InputText
+                                        id="name"
+                                        value={patient.name}
+                                        onChange={(e) => onInputChange(e, "name")}
+                                        required
+                                        className={classNames({
+                                            "w-full":1,
+                                            "p-invalid": hasEmpty && !patient.name,
+                                        })}
+                                    />
+                                    {hasEmpty && !patient.name && (
+                                        <small className="p-invalid">
+                                            Name is required.
+                                        </small>
+                                    )}
+                                </div>
 
-                        <div className="formgrid grid">
-                            <div className="field col">
-                                <label htmlFor="name" className="font-bold block mb-3 ml-2">Name</label>
-                                <InputText
-                                    id="name"
-                                    value={patient.name}
-                                    onChange={(e) => onInputChange(e, "name")}
-                                    required
-                                    className={classNames({
-                                        "w-full":1,
-                                        "p-invalid": hasEmpty && !patient.name,
-                                    })}
-                                />
-                                {hasEmpty && !patient.name && (
-                                    <small className="p-invalid">
-                                        Name is required.
-                                    </small>
-                                )}
+                                <div className="field col">
+                                    <label htmlFor="age" className="font-bold block mb-3 ml-2">Age</label>
+                                    <InputText
+                                        id="age"
+                                        value={patient.age}
+                                        onChange={(e) => onInputChange(e, "age")}
+                                        className='w-full'
+                                    />
+                                </div>
                             </div>
 
+                            <div className="formgrid grid">
                             <div className="field col">
-                                <label htmlFor="age" className="font-bold block mb-3 ml-2">Age</label>
-                                <InputText
-                                    id="age"
-                                    value={patient.age}
-                                    onChange={(e) => onInputChange(e, "age")}
-                                    className='w-full'
-                                />
+                                    <label htmlFor="gender" className="font-bold block mb-3 ml-2">Gender</label>
+                                    <Dropdown
+                                        value={patient.gender}
+                                        name='gender'
+                                        onChange={(e) => onSelectionChange(e, "gender")}
+                                        options={genderList}
+                                        optionLabel="label"
+                                        showClear
+                                        placeholder="Select a Gender"
+                                        required
+                                        className='w-full'
+                                    />
+                                </div>  
+
+                                <div className="field col">
+                                    <label htmlFor="phone" className="font-bold block mb-3 ml-2">Phone</label>
+                                    <InputText
+                                        id="phone"
+                                        value={patient.phone}
+                                        onChange={(e) => onInputChange(e, "phone")}
+                                        required
+                                        className={classNames({
+                                            "w-full":1,
+                                            "p-invalid": hasEmpty && !patient.phone,
+                                        })}
+                                    />
+                                    {hasEmpty && !patient.phone && (
+                                        <small className="p-invalid">
+                                            Phone is required.
+                                        </small>
+                                    )}
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="formgrid grid">
-                        <div className="field col">
-                                <label htmlFor="gender" className="font-bold block mb-3 ml-2">Gender</label>
-                                <Dropdown
-                                    value={patient.gender}
-                                    name='gender'
-                                    onChange={(e) => onSelectionChange(e, "gender")}
-                                    options={genderList}
-                                    optionLabel="label"
-                                    showClear
-                                    placeholder="Select a Gender"
-                                    required
-                                    className='w-full'
-                                />
-                            </div>  
 
-                            <div className="field col">
-                                <label htmlFor="phone" className="font-bold block mb-3 ml-2">Phone</label>
-                                <InputText
-                                    id="phone"
-                                    value={patient.phone}
-                                    onChange={(e) => onInputChange(e, "phone")}
-                                    required
-                                    className={classNames({
-                                        "w-full":1,
-                                        "p-invalid": hasEmpty && !patient.phone,
-                                    })}
-                                />
-                                {hasEmpty && !patient.phone && (
-                                    <small className="p-invalid">
-                                        Phone is required.
-                                    </small>
-                                )}
+                            <div className="formgrid grid">
+                                <div className="field col">
+                                <label htmlFor="details" className="font-bold block mb-3 ml-2">Details</label>
+                                    <InputTextarea
+                                        id="details"
+                                        value={patient.details}
+                                        onChange={(e) =>
+                                            onInputChange(e, "details")
+                                        }
+                                        required
+                                        rows={3}
+                                        cols={20}
+                                        className='w-full'
+                                    />
+                                </div>    
                             </div>
+
+
+                            <div className='text-center'>
+                                <Button label="Submit" onClick={handleSubmit}/>
+                            </div>
+                        </form>
+
                         </div>
-
-
-                        <div className="formgrid grid">
-                            <div className="field col">
-                            <label htmlFor="details" className="font-bold block mb-3 ml-2">Details</label>
-                                <InputTextarea
-                                    id="details"
-                                    value={patient.details}
-                                    onChange={(e) =>
-                                        onInputChange(e, "details")
-                                    }
-                                    required
-                                    rows={3}
-                                    cols={20}
-                                    className='w-full'
-                                />
-                            </div>    
-                        </div>
-
-
-                        <div className='text-center'>
-                            <Button label="Submit" onClick={handleSubmit}/>
-                        </div>
-                    </form>
-
                     </div>
+                    
                     
                     
                 </div>
