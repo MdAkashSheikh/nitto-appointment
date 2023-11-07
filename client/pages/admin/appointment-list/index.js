@@ -567,7 +567,7 @@ const Appointment = () => {
         stDate = patients?.filter(item => item.date1 == patient.date1);
         serialDate = stDate.map(item => item.serial);
         filSerial = serialDate?.filter(item => item != undefined);
-        ans = numArr?.filter(item => !filSerial.includes(item))
+        ans = numArr?.filter(item => !filSerial.includes(item.toString()))
         console.log("ZERO")
 
     } else if(sCheck == 1) {
@@ -575,7 +575,7 @@ const Appointment = () => {
         stDate = patients?.filter(item => item.date1.slice(0, 10) == date2);
         serialDate = stDate.map(item => item.serial);
         filSerial = serialDate?.filter(item => item != undefined);
-        ans = numArr?.filter(item => !filSerial.includes(item))
+        ans = numArr?.filter(item => !filSerial.includes(item.toString()))
     }
     
     if(!ans) {
