@@ -567,7 +567,7 @@ const Appointment = () => {
         stDate = patients?.filter(item => item.date1 == patient.date1);
         serialDate = stDate.map(item => item.serial);
         filSerial = serialDate?.filter(item => item != undefined);
-        ans = numArr?.filter(item => !filSerial.includes(item.toString()))
+        ans = numArr?.filter(item => !filSerial.includes(item))
         console.log("ZERO")
 
     } else if(sCheck == 1) {
@@ -575,7 +575,7 @@ const Appointment = () => {
         stDate = patients?.filter(item => item.date1.slice(0, 10) == date2);
         serialDate = stDate.map(item => item.serial);
         filSerial = serialDate?.filter(item => item != undefined);
-        ans = numArr?.filter(item => !filSerial.includes(item.toString()))
+        ans = numArr?.filter(item => !filSerial.includes(item))
     }
     
     if(!ans) {
@@ -795,7 +795,7 @@ const Appointment = () => {
     // console.log(follow, "FolloW Up Date")
 
     // console.log({patient, follow})
-    // console.log("TYPE",patient);
+    console.log("Patient-Data", patient);
 
     return (
         <div className="grid crud-demo">

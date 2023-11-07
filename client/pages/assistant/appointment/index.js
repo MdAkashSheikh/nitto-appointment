@@ -179,7 +179,7 @@ const Appointment = () => {
                 setProductDialog(false);
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Patient is Updated', life: 3000 });
             })
-        } else if(type == 'patient' && patient._id == undefined && patient.chamber && patient.doctor && patient.date1 && patient.time1 && patient.name) {
+        } else if(type == 'patient' && patient._id == undefined && patient.chamber && patient.doctor && patient.date1 && patient.time1 && patient.name && patient.serial) {
             console.log("Create-----Patient")
             PatientService.postPatient(
                 patient.chamber,
@@ -199,7 +199,7 @@ const Appointment = () => {
                 setProductDialog(false);
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Patient is Created', life: 3000, position:"top-center" });
             })
-        } else if(type == 'follow' && type == 'patient' && follow.pchamber , follow.pspecialist, follow.pdoctor, follow.pdate1, follow.ptime1, follow.pname, follow.pphone, follow.pserial, follow.pid && follow.visit_status && follow.price && follow.followUpDate && follow.visit_time, patient._id ) {
+        } else if(type == 'follow'  && follow.pchamber && follow.pspecialist && follow.pdoctor && follow.pdate1 && follow.ptime1 && follow.pname && follow.pphone && follow.pserial && follow.pid && follow.visit_status && follow.price && follow.followUpDate && follow.visit_time && patient._id ) {
             console.log(patient);
 
             console.log(patient._id)
