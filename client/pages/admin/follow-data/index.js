@@ -138,12 +138,21 @@ const All_Data = () => {
     }
 
     const firstApointBodyTemplate = (rowData) => {
-        return (
-            <>
-                <span className="p-column-title">First Appointment</span>
-                {rowData.date1.slice(0, 10)}
-            </>
-        );
+        if(rowData.date1) {
+            return (
+                <>
+                    <span className="p-column-title">First Appointment</span>
+                    {rowData.date1.slice(0, 10)}
+                </>
+            );
+        } else {
+            return (
+                <>
+                    <span className="p-column-title">First Appointment</span>
+                    {rowData.date1}
+                </>
+            );
+        }
     }
 
     const chamberBodyTemplate = (rowData) => {
@@ -183,12 +192,22 @@ const All_Data = () => {
     }
 
     const followUpDateBodyTemplate = (rowData) => {
-        return (
-            <>
-                <span className="p-column-title">follow Up Date</span>
-                {rowData.followUpDate.slice(0, 10)}
-            </>
-        );
+        if(rowData.followUpDate) {
+            return (
+                <>
+                    <span className="p-column-title">follow Up Date</span>
+                    {rowData.followUpDate.slice(0, 10)}
+                </>
+            );
+        } else {
+            return (
+                <>
+                    <span className="p-column-title">follow Up Date</span>
+                    {rowData.followUpDate}
+                </>
+            );
+        }
+        
     }
    
 
