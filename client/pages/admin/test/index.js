@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { Checkbox } from "primereact/checkbox";
+import { Calendar } from 'primereact/calendar';
 
-export default function BasicDemo() {
-    const [checked, setChecked] = useState(true);
+export default function IconDemo() {
+    const [date, setDate] = useState(null);
 
-    console.log(checked);
+    console.log(date)
 
     return (
         <div className="card flex justify-content-center">
-            <Checkbox onChange={e => setChecked(e.checked)} checked={checked}></Checkbox>
+            <Calendar value={date} onChange={(e) => setDate(e.value)} showIcon />
         </div>
     )
 }

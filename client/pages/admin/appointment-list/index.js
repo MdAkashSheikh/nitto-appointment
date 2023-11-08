@@ -82,7 +82,7 @@ const Appointment = () => {
     const [position, setPosition] = useState('center');
     const [sCheck, setSCheck] = useState(null);
     const [dateHo, setDateHo] = useState(null);
-
+    
     const timeObj = [];
 
     useEffect(() => {
@@ -185,7 +185,7 @@ const Appointment = () => {
                 setProductDialog(false);
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Patient is Updated', life: 3000 });
             })
-        } else if(type == 'patient' && patient._id == undefined && patient.chamber && patient.doctor && patient.date1 && patient.time1 && patient.name && patient.serial) {
+        } else if(type == 'patient' && patient._id == undefined && patient.chamber && patient.doctor && patient.specialist && patient.date1 && patient.time1 && patient.name && patient.phone && patient.serial) {
             console.log("Create-----Patient")
             PatientService.postPatient(
                 patient.chamber,
@@ -388,7 +388,7 @@ const Appointment = () => {
 
     const onDateChange = (e, name) => {
         let _product = {...patient };
-        _product[`${name}`] = e.value;
+        _product[`${name}`] = format(new Date(e.target.value), 'yyyy-MM-dd, h:mm:ss a');
         setPatient(_product);
 
         const test = e.value.toString();
@@ -399,14 +399,13 @@ const Appointment = () => {
     }
 
 
-    let doctorList;
-    let specialistList;
-    let chamberList;
-    let timeList1;
+    let doctorList = new Set();
+    let specialistList = new Set();
+    let chamberList = new Set();
+    let timeList1 = new Set();
 
 
     if(msAvailable == null) {
-
 
         const masterChamberFiltered = masterChamber?.filter((item) => item.is_active == '1');    
         chamberList = masterChamberFiltered?.map((item) => {
@@ -983,7 +982,7 @@ const Appointment = () => {
                                     value={new Date(patient.date1)}
                                     name='date1' 
                                     onChange={(e) => onDateChange(e, "date1")} 
-                                    dateFormat="dd/mm/yy" 
+                                    // dateFormat="dd/mm/yy" 
                                     placeholder="Select a Date"
                                     required
                                     showIcon
@@ -997,6 +996,7 @@ const Appointment = () => {
                                     </small>
                                 )}
                             </div>
+                            {/* <Calendar value={testDate} onChange={(e) => setTestDate(e.value)} showIcon /> */}
                             <div className="field col">
                                 <label htmlFor="time1">Time</label>
                                 <Dropdown
@@ -1067,7 +1067,16 @@ const Appointment = () => {
                                     id="phone"
                                     value={patient.phone}
                                     onChange={(e) => onInputChange(e, "phone")}
+                                    required
+                                    className={classNames({
+                                        "p-invalid": submitted && !patient.phone,
+                                    })}
                                 />
+                                {submitted && !patient.phone && (
+                                    <small className="p-invalid">
+                                        Phone is required.
+                                    </small>
+                                )}
                             </div>
                         </div>
 
@@ -1088,7 +1097,7 @@ const Appointment = () => {
                         <div className="field">
                             <label htmlFor="serial">Add Serial Number</label>
                             <Dropdown 
-                                value={Number(patient.serial)} 
+                                value={String(patient.serial)} 
                                 name='serial'
                                 onChange={(e) => onSelectionChange(e, "serial")} 
                                 options={serialList} 
