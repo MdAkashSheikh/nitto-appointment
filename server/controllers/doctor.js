@@ -76,8 +76,11 @@ const toggleDoctor = async(req, res) => {
     const is_active = req.body.is_active;
 
     try {
-        const AllData = await doctorSc.find({}).sort('-date');
-        res.send({AllData});
+        const oneData = await doctorSc.findByIdAndUpdate(id, {
+            "is_active": is_active
+        })
+        
+        res.send(oneData);
 
     } catch (err) {
         res.status(400).send(err);

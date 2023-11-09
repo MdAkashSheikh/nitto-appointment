@@ -206,15 +206,17 @@ const Doctor_Manage = () => {
     const statusBodyTemplate = (rowData) => {
         return (
             <ToggleButton onLabel="Active" offLabel="Inactive" onIcon="pi pi-check" offIcon="pi pi-times" 
-            checked={rowData.is_active != '0'} onChange={(e) => {
-                let is_active = '0';
-                if (rowData.is_active == '0') {
-                    is_active = '1'
-                }
-                DoctorService.toggleDoctor(is_active, rowData._id).then(() => {
-                setTogleRefresh(!toggleRefresh)
-                })
-             }} />
+                checked={rowData.is_active != '0'} 
+                onChange={(e) => {
+                    let is_active = '0';
+                    if (rowData.is_active == '0') {
+                        is_active = '1'
+                    }
+                    DoctorService.toggleDoctor(is_active, rowData._id).then(() => {
+                    setTogleRefresh(!toggleRefresh)
+                    })
+                }} 
+            />
         );
     }
 
