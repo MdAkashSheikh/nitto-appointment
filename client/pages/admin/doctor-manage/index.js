@@ -25,12 +25,12 @@ const Doctor_Manage = () => {
         experience: '',
     };
 
-    const [products, setProducts] = useState(null);
+    const [doctors, setDoctors] = useState(null);
     const [masterSpecialist, getMasterSpecialist] = useState(null);
     const [productDialog, setProductDialog] = useState(false);
     const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
-    const [product, setProduct] = useState(emptyProduct);
+    const [doctor, setDoctor] = useState(emptyProduct);
     const [selectedProducts, setSelectedProducts] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
@@ -55,13 +55,13 @@ const Doctor_Manage = () => {
             return;
         }
 
-        DoctorService.getDoctor().then((res) => setProducts(res.data.AllData));
+        DoctorService.getDoctor().then((res) => setDoctors(res.data.AllData));
         SpecializationService.getSpecial().then((res) => getMasterSpecialist(res.data.AllData));
         
     }, [jwtToken, toggleRefresh]);
 
     const openNew = () => {
-        setProduct(emptyProduct);
+        setDoctor(emptyProduct);
         setSubmitted(false);
         setProductDialog(true);
     };
@@ -82,27 +82,27 @@ const Doctor_Manage = () => {
     const saveProduct = () => {
         setSubmitted(true);
 
-        if( product.name && product.specialist && product.designation &&  product.degree && product.experience && product._id) {
+        if( doctor.name && doctor.specialist && doctor.designation &&  doctor.degree && doctor.experience && doctor._id) {
             DoctorService.editDoctor(
-                product.name,
-                product.specialist,
-                product.designation,
-                product.degree,
-                product.experience,
-                product._id,
+                doctor.name,
+                doctor.specialist,
+                doctor.designation,
+                doctor.degree,
+                doctor.experience,
+                doctor._id,
 
             ).then(() => {
                 setTogleRefresh(!toggleRefresh);
                 setProductDialog(false);
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Doctor is Updated', life: 3000 });
             })
-        } else if( product.name && product.specialist && product.designation &&  product.degree && product.experience) {
+        } else if( doctor.name && doctor.specialist && doctor.designation &&  doctor.degree && doctor.experience) {
             DoctorService.postDoctor(
-                product.name,
-                product.specialist,
-                product.designation,
-                product.degree,
-                product.experience
+                doctor.name,
+                doctor.specialist,
+                doctor.designation,
+                doctor.degree,
+                doctor.experience
 
             ).then(() => {
                 setTogleRefresh(!toggleRefresh);
@@ -112,37 +112,37 @@ const Doctor_Manage = () => {
         }
     };
 
-    const editProduct = (product) => {
-        setProduct({ ...product });
+    const editProduct = (doctor) => {
+        setDoctor({ ...doctor });
         setProductDialog(true);
     };
 
-    const confirmDeleteProduct = (product) => {
-        setProduct(product);
+    const confirmDeleteProduct = (doctor) => {
+        setDoctor(doctor);
         setDeleteProductDialog(true);
     };
 
     const deleteProduct = () => {
-        DoctorService.deleteDoctor(product._id).then(() => {
+        DoctorService.deleteDoctor(doctor._id).then(() => {
             setTogleRefresh(!toggleRefresh);
             setDeleteProductDialog(false);
-            setProduct(emptyProduct);
+            setDoctor(emptyProduct);
             toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Doctor is Deleted', life: 3000 });
         })
     };
 
     const onInputChange = (e, name) => {
         const val = (e.target && e.target.value) || '';
-        let _product = { ...product };
+        let _product = { ...doctor };
         _product[`${name}`] = val;
 
-        setProduct(_product);
+        setDoctor(_product);
     };
 
     const onSelectionChange = (e, name) => {
-        let _product = {...product };
+        let _product = {...doctor };
         _product[`${name}`] = e.value;
-        setProduct(_product);
+        setDoctor(_product);
     }
 
     const specialistList = masterSpecialist?.map((item) => {
@@ -268,7 +268,7 @@ const Doctor_Manage = () => {
         </>
     );
 
-    if(products == null) {
+    if(doctors == null) {
         return (
             <div className="card">
                 <div className="border-round border-1 surface-border p-4 surface-card">
@@ -302,7 +302,7 @@ const Doctor_Manage = () => {
                     ></Toolbar>
                     <DataTable
                         ref={dt}
-                        value={products}
+                        value={doctors}
                         selection={selectedProducts}
                         onSelectionChange={(e) => setSelectedProducts(e.value)}
                         dataKey="id"
@@ -379,13 +379,13 @@ const Doctor_Manage = () => {
                             <label htmlFor="name">Doctor Name</label>
                             <InputText 
                                 id="name" 
-                                value={product.name} 
+                                value={doctor.name} 
                                 onChange={(e) => onInputChange(e, "name")} 
                                 required 
                                 autoFocus
-                                className={classNames({ 'p-invalid': submitted && !product.name })} 
+                                className={classNames({ 'p-invalid': submitted && !doctor.name })} 
                             />
-                            {submitted && !product.name && <small className="p-invalid">
+                            {submitted && !doctor.name && <small className="p-invalid">
                                 Doctor Name is required.
                             </small>}
                         </div>
@@ -393,7 +393,7 @@ const Doctor_Manage = () => {
                             <div className="field col">
                                 <label htmlFor="specialist">Specialization</label>
                                 <Dropdown
-                                    value={product.specialist}
+                                    value={doctor.specialist}
                                     name='chamber'
                                     onChange={(e) => onSelectionChange(e, "specialist")}
                                     options={specialistList}
@@ -402,11 +402,11 @@ const Doctor_Manage = () => {
                                     placeholder="Select a Specialization"
                                     required
                                     className={classNames({
-                                        "p-invalid": submitted && !product.specialist,
+                                        "p-invalid": submitted && !doctor.specialist,
                                     })}
                                 />
                                 </div>
-                                {submitted && !product.specialist && (
+                                {submitted && !doctor.specialist && (
                                     <small className="p-invalid">
                                         Specialization is required.
                                     </small>
@@ -416,12 +416,12 @@ const Doctor_Manage = () => {
                             <label htmlFor="designation">Designation</label>
                             <InputText 
                                 id="designation" 
-                                value={product.designation} 
+                                value={doctor.designation} 
                                 onChange={(e) => onInputChange(e, "designation")} 
                                 required 
-                                className={classNames({ 'p-invalid': submitted && !product.designation })} 
+                                className={classNames({ 'p-invalid': submitted && !doctor.designation })} 
                             />
-                            {submitted && !product.designation && <small className="p-invalid">
+                            {submitted && !doctor.designation && <small className="p-invalid">
                                 Designation is required.
                             </small>}
                         </div>
@@ -429,12 +429,12 @@ const Doctor_Manage = () => {
                             <label htmlFor="degree">Degree</label>
                             <InputText 
                                 id="degree" 
-                                value={product.degree} 
+                                value={doctor.degree} 
                                 onChange={(e) => onInputChange(e, "degree")} 
                                 required 
-                                className={classNames({ 'p-invalid': submitted && !product.degree })} 
+                                className={classNames({ 'p-invalid': submitted && !doctor.degree })} 
                             />
-                            {submitted && !product.degree && <small className="p-invalid">
+                            {submitted && !doctor.degree && <small className="p-invalid">
                                 Degree is required.
                             </small>}
                         </div>
@@ -442,11 +442,11 @@ const Doctor_Manage = () => {
                             <label htmlFor="experience">Experience</label>
                             <InputText 
                                 id="experience" 
-                                value={product.experience} 
+                                value={doctor.experience} 
                                 onChange={(e) => onInputChange(e, "experience")} 
-                                className={classNames({ 'p-invalid': submitted && !product.experience })} 
+                                className={classNames({ 'p-invalid': submitted && !doctor.experience })} 
                             />
-                            {submitted && !product.experience && <small className="p-invalid">
+                            {submitted && !doctor.experience && <small className="p-invalid">
                                 experience is required.
                             </small>}
                         </div>
@@ -455,9 +455,9 @@ const Doctor_Manage = () => {
                     <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {product && (
+                            {doctor && (
                                 <span>
-                                    Are you sure you want to delete <b>{product.name}</b>?
+                                    Are you sure you want to delete <b>{doctor.name}</b>?
                                 </span>
                             )}
                         </div>

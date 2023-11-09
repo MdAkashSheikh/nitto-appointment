@@ -49,6 +49,7 @@ const editDoctor = async(req, res) => {
 
 
 const getDoctor = async(req, res) => {
+    
     try {
         const AllData = await doctorSc.find({}).sort('-date');
         res.send({AllData});
