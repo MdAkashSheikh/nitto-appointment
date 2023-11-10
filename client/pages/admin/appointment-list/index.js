@@ -560,6 +560,7 @@ const Appointment = () => {
         msSerila = copySerial?.map(item => item.serial-0);
     }
 
+
     const numArr = Array.from({ length: msSerila}, (_, index) => index + 1);
 
     if(sCheck == 0) {
@@ -1097,7 +1098,7 @@ const Appointment = () => {
                         <div className="field">
                             <label htmlFor="serial">Add Serial Number</label>
                             <Dropdown 
-                                value={String(patient.serial)} 
+                                value={Number(patient.serial)} 
                                 name='serial'
                                 onChange={(e) => onSelectionChange(e, "serial")} 
                                 options={serialList} 

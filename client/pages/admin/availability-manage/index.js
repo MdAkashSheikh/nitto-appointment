@@ -10,7 +10,6 @@ import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import { classNames } from 'primereact/utils';
 import React, { useEffect, useRef, useState } from 'react';
-import { ProductService } from '../../../demo/service/ProductService';
 import { getJWTAdmin } from '../../../admin-utils/utils';
 import { AvailableService } from '../../../demo/service/AvailableService';
 import { DoctorService } from '../../../demo/service/DoctorService';
@@ -178,7 +177,7 @@ const Availability_Manage = () => {
     };
 
     const deleteProduct = () => {
-        ProductService.deleteAvailable(product._id).then(() => {
+        AvailableService.deleteAvail(product._id).then(() => {
             setTogleRefresh(!toggleRefresh);
             setDeleteProductDialog(false);
             setProduct(emptyProduct);
