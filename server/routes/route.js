@@ -104,7 +104,7 @@ router.get('/get-patient', getPatient);
 
 //Doctor Route URL
 router.post('/post-doctor', postDoctor);
-router.post('/post-doctor/:id', editDoctor);
+router.post('/edit-doctor/:id', editDoctor);
 router.get('/get-doctor', getDoctor);
 router.delete('/delete-doctor/:id', deleteDoctor);
 router.post('/toggle-doctor/:id', toggleDoctor);
