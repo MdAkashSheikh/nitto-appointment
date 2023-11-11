@@ -110,7 +110,7 @@ const Chamber_Manage = () => {
     };
 
     const deleteProduct = () => {
-        ChamberService.deleteChember(product._id).then(() => {
+        ChamberService.deleteChamber(product._id).then(() => {
             setTogleRefresh(!toggleRefresh);
             setDeleteProductDialog(false);
             setProduct(emptyProduct);

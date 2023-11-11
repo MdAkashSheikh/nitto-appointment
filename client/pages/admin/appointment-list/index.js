@@ -21,6 +21,7 @@ import { DoctorService } from '../../../demo/service/DoctorService';
 import { TimeService } from '../../../demo/service/TimeService';
 import { FollowUpServices } from '../../../demo/service/FollowUpService';
 import { AvailableService } from '../../../demo/service/AvailableService';
+import { SpecializationService } from '../../../demo/service/SpecializationService';
 const Appointment = () => {
     let emptyPatient = {
         id: null,
@@ -105,6 +106,7 @@ const Appointment = () => {
         ChamberService.getChamber().then((res) => setMasterChamber(res.data.AllData));
         DoctorService.getDoctor().then((res) => setMasterDoctor(res.data.AllData));
         TimeService.getTime().then((res) => setMasterTime(res.data.AllData));
+        SpecializationService.getSpecial().then((res) => setMasterSpecialist(res.data.AllData));
         FollowUpServices.getFollow().then((res) => setFollowData(res.data.AllData));
         AvailableService.getAvail().then((res) => {
             setMasterAvailable(res.data.AllData)
@@ -399,10 +401,10 @@ const Appointment = () => {
     }
 
 
-    let doctorList = new Set();
-    let specialistList = new Set();
-    let chamberList = new Set();
-    let timeList1 = new Set();
+    let doctorList;
+    let specialistList;
+    let chamberList;
+    let timeList1;
 
 
     if(msAvailable == null) {
@@ -438,10 +440,20 @@ const Appointment = () => {
             return { label: item.name, value: item.name }
         })
 
-        specialistList = masterDoctorFiltered?.map((item) => {
-            return { label: item.specialist, value: item.specialist }
+        let specialistList1 = masterDoctorFiltered?.map((item) => item.specialist)
+
+        const tmtSpecialist = [];
+        specialistList1 = specialistList1.filter(element => {
+            if(!tmtSpecialist?.includes(element)) {
+                tmtSpecialist.push(element)
+                return true
+            }
+            return false
+        });
+
+        specialistList = specialistList1?.map(item => {
+            return { label: item, value: item }
         })
-        
     }
 
     let availObj;
@@ -983,7 +995,7 @@ const Appointment = () => {
                                     value={new Date(patient.date1)}
                                     name='date1' 
                                     onChange={(e) => onDateChange(e, "date1")} 
-                                    // dateFormat="dd/mm/yy" 
+                                    dateFormat="dd/mm/yy" 
                                     placeholder="Select a Date"
                                     required
                                     showIcon
