@@ -573,7 +573,8 @@ const Appointment = () => {
     }
 
 
-    const numArr = Array.from({ length: msSerila}, (_, index) => index + 1);
+    // const numArr = Array.from({ length: msSerila}, (_, index) => index+1 );
+    const numArr = Array(msSerila).fill().map((_, i) => i+1);
 
     if(sCheck == 0) {
         stDate = patients?.filter(item => item.date1 == patient.date1);
