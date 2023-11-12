@@ -517,19 +517,19 @@ const Availability_Manage = () => {
 
                         <div className="formgrid grid m-2">
                            <div className="card flex justify-content-center">
-                                <div className="flex flex-column gap-3">
+                                <div className="flex flex-column gap-4">
                                     {categories.map((category) => {
                                         return (
                                             <div className='flex'>
                                                 <div key={category.key} className="m-2">
-                                                    <Checkbox 
+                                                    {/* <Checkbox 
                                                         inputId={category.key} 
                                                         name="category" 
                                                         value={category} 
                                                         onChange={onCategoryChange} 
                                                         checked={selectedCategories.some((item) => item.key === category.key)}  
-                                                    />
-                                                    <label htmlFor={category.key} className="ml-2">
+                                                    /> */}
+                                                    <label htmlFor={category.key} className="ml-2 m-2">
                                                         {category.name}
                                                     </label>
                                                 </div>
