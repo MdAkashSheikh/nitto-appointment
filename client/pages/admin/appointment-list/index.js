@@ -573,17 +573,14 @@ const Appointment = () => {
 
 
     const numArr = Array.from({ length: msSerila}, (_, index) => index+1 );
-    // const numArr = Array(msSerila).fill().map((_, i) => i+1);
+    
 
-    console.log("DOCTOR", checkDoctor, "CHAMBER--", checkChamber)
 
     if(sCheck == 0) {
         stDate = patients?.filter(item => (item.date1 == patient.date1) && (item.doctor == patient.doctor) && (item.chamber == patient.chamber));
-        console.log(stDate, "STTTTDAAAAAAAAAAAAATEEEEEEEE")
         serialDate = stDate.map(item => item.serial);
         filSerial = serialDate?.filter(item => item != undefined);
         ans = numArr?.filter(item => !filSerial.includes(item.toString()))
-        console.log("ZERO")
 
     } else if(sCheck == 1) {
         let date2 = format(new Date(dateHo), 'yyyy-MM-dd');
@@ -591,7 +588,6 @@ const Appointment = () => {
         serialDate = stDate.map(item => item.serial);
         filSerial = serialDate?.filter(item => item != undefined);
         ans = numArr?.filter(item => !filSerial.includes(item.toString()))
-        console.log("ONE")
     }
     
     if(!ans) {
