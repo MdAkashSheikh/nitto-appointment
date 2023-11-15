@@ -237,16 +237,6 @@ const Availability_Manage = () => {
         { label: 'Friday', value: 'Friday'},
     ];
 
-
-    const codeBodyTemplate = (rowData) => {
-        return (
-            <>
-                <span className="p-column-title">Code</span>
-                {rowData.id}
-            </>
-        );
-    };
-
     const doctorBodyTemplate = (rowData) => {
         return (
             <>
@@ -256,8 +246,6 @@ const Availability_Manage = () => {
         );
     };
 
-
-    // const mtime = product.
     const timeBodyTemplate = (rowData) => {
         return (
             <>
