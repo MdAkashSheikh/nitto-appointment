@@ -164,7 +164,6 @@ const Availability_Manage = () => {
         }
     };
    
-    // console.log("ZZZZ", selectedCategories);
 
     const editProduct = (product) => {
         setProduct({ ...product });
@@ -274,7 +273,6 @@ const Availability_Manage = () => {
         return (    
             <>
                 <span className="p-column-title">Days</span>
-                {/* {rowData.days1.join(' , ')} */}
                 <div>   
                     Saterday: {rowData.saturdayT || "Not Assign"}<br/>
                     Sunday: {rowData.sundayT || 'Not Assign'} <br/>
@@ -384,11 +382,6 @@ const Availability_Manage = () => {
         )
     }
 
-    // console.log("Chamber", masterDoctor);
-
-    // console.log("_selectedCategories", selectedCategories )
-    console.log("Chamber", product.thursdayT);
-   
 
     return (
         <div className="grid crud-demo">
@@ -419,12 +412,6 @@ const Availability_Manage = () => {
                         responsiveLayout="scroll"
                     >
 
-                        {/* <Column
-                            field="sl"
-                            header="SL"
-                            body={codeBodyTemplate}
-                            sortable
-                        ></Column> */}
                         <Column
                             field="dname"
                             header="Doctor Name"

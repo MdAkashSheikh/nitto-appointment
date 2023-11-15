@@ -313,7 +313,6 @@ const Appointment = () => {
         let _product = {...follow };
         _product[`${name}`] = e.value;
         setFollow(_product);
-        // setPatient(_product);
 
         const test = e.value.toString();
         setTimeHook(test.slice(0, 3));
@@ -804,10 +803,6 @@ const Appointment = () => {
         )
     }
 
-    // console.log(follow, "FolloW Up Date")
-
-    // console.log({patient, follow})
-    console.log("Patient-Data", patient);
 
     return (
         <div className="grid crud-demo">

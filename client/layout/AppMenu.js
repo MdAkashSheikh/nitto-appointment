@@ -98,12 +98,7 @@ const AppMenu = () => {
                         label: "SMS Templates",
                         icon: "pi pi-fw pi-comments",
                         to: '/admin/sms-temp'
-                    },
-                    // {
-                    //     label: "Z-Practice",
-                    //     icon: "pi pi-fw pi-bookmark",
-                    //     to: "/pages/Z-Practice"
-                    // }
+                    }
                 ],
             },
             {
