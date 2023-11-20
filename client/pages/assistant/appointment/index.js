@@ -429,7 +429,7 @@ const Appointment = () => {
         serialDate = stDate.map(item => item.serial);
         filSerial = serialDate?.filter(item => item != undefined);
         ans = numArr?.filter(item => !filSerial.includes(item.toString()))
-        console.log("ZERO")
+        ans.unshift(patient.serial);
 
     } else if(sCheck == 1) {
         let date2 = format(new Date(dateHo), 'yyyy-MM-dd');
@@ -782,7 +782,6 @@ const Appointment = () => {
                         footer={productDialogFooter}
                         onHide={hideDialog}
                     >
-
                     
                         <div className="formgrid grid">
                             <div className="field col">

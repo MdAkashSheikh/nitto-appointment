@@ -569,7 +569,7 @@ const Appointment = () => {
         filSerial = serialDate?.filter(item => item != undefined);
         ans = numArr?.filter(item => !filSerial.includes(item))
         ans.unshift(patient.serial)
-        
+
     } else if(sCheck == 1) {
         let date2 = format(new Date(dateHo), 'yyyy-MM-dd');
         stDate = patients?.filter(item => item.date1.slice(0, 10) == date2);
@@ -582,7 +582,6 @@ const Appointment = () => {
         ans = numArr;
     }
     
-
     const serialList = ans.map(item => {
         
         return {label: item, value: item}
@@ -794,8 +793,6 @@ const Appointment = () => {
 
 
     console.log({patient, follow})
-    
-    console.log("Patient-Serial", patient.serial);
 
     return (
         <div className="grid crud-demo">
@@ -920,6 +917,7 @@ const Appointment = () => {
                                     placeholder="Select a Chamber"
                                     required
                                     autoFocus
+                                    disabled={sCheck == 0}
                                     className={classNames({
                                         "p-invalid": submitted && !patient.chamber,
                                     })}
@@ -943,6 +941,7 @@ const Appointment = () => {
                                     showClear
                                     placeholder="Select a Specialization"
                                     required
+                                    disabled={sCheck == 0}
                                     className={classNames({
                                         "p-invalid": submitted && !patient.specialist,
                                     })}
@@ -964,6 +963,7 @@ const Appointment = () => {
                                     showClear
                                     placeholder="Select a Doctor"
                                     required
+                                    disabled={sCheck == 0}
                                     className={classNames({
                                         "p-invalid": submitted && !patient.doctor,
                                     })}
@@ -986,6 +986,7 @@ const Appointment = () => {
                                     // dateFormat="dd/mm/yy" 
                                     placeholder="Select a Date"
                                     required
+                                    disabled={sCheck == 0}
                                     showIcon
                                     className={classNames({
                                         "p-invalid": submitted && !patient.date1,
@@ -1009,6 +1010,7 @@ const Appointment = () => {
                                     showClear
                                     placeholder="Select a Time"
                                     required
+                                    disabled={sCheck == 0}
                                     className={classNames({
                                         "p-invalid": submitted && !patient.time1,
                                     })}
