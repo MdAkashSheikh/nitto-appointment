@@ -32,7 +32,7 @@ const patientSc = new mongoose.Schema({
         type: String
     },
     serial: {
-        type: String,
+        type: Number,
     },
     status: {
         type: String,

@@ -21,7 +21,6 @@ import { DoctorService } from '../../../demo/service/DoctorService';
 import { TimeService } from '../../../demo/service/TimeService';
 import { FollowUpServices } from '../../../demo/service/FollowUpService';
 import { AvailableService } from '../../../demo/service/AvailableService';
-import { SpecializationService } from '../../../demo/service/SpecializationService';
 const Appointment = () => {
     let emptyPatient = {
         id: null,
@@ -106,7 +105,6 @@ const Appointment = () => {
         ChamberService.getChamber().then((res) => setMasterChamber(res.data.AllData));
         DoctorService.getDoctor().then((res) => setMasterDoctor(res.data.AllData));
         TimeService.getTime().then((res) => setMasterTime(res.data.AllData));
-        SpecializationService.getSpecial().then((res) => setMasterSpecialist(res.data.AllData));
         FollowUpServices.getFollow().then((res) => setFollowData(res.data.AllData));
         AvailableService.getAvail().then((res) => {
             setMasterAvailable(res.data.AllData)
@@ -313,6 +311,7 @@ const Appointment = () => {
         let _product = {...follow };
         _product[`${name}`] = e.value;
         setFollow(_product);
+        // setPatient(_product);
 
         const test = e.value.toString();
         setTimeHook(test.slice(0, 3));
@@ -400,10 +399,10 @@ const Appointment = () => {
     }
 
 
-    let doctorList;
-    let specialistList;
-    let chamberList;
-    let timeList1;
+    let doctorList = new Set();
+    let specialistList = new Set();
+    let chamberList = new Set();
+    let timeList1 = new Set();
 
 
     if(msAvailable == null) {
@@ -439,20 +438,10 @@ const Appointment = () => {
             return { label: item.name, value: item.name }
         })
 
-        let specialistList1 = masterDoctorFiltered?.map((item) => item.specialist)
-
-        const tmtSpecialist = [];
-        specialistList1 = specialistList1.filter(element => {
-            if(!tmtSpecialist?.includes(element)) {
-                tmtSpecialist.push(element)
-                return true
-            }
-            return false
-        });
-
-        specialistList = specialistList1?.map(item => {
-            return { label: item, value: item }
+        specialistList = masterDoctorFiltered?.map((item) => {
+            return { label: item.specialist, value: item.specialist }
         })
+        
     }
 
     let availObj;
@@ -558,9 +547,10 @@ const Appointment = () => {
     let serialDate = null;
     let filSerial = null;
 
+
+
     let msSerila = 0;
     let ans = null;
-    
     if(light == 1) {
         msSerila = msAvailable?.map(item => item.serial-0);
         msSerila = Math.max(...msSerila);
@@ -571,22 +561,21 @@ const Appointment = () => {
     }
 
 
-    const numArr = Array.from({ length: msSerila}, (_, index) => index+1 );
-    
-
+    const numArr = Array.from({ length: msSerila}, (_, index) => index + 1);
 
     if(sCheck == 0) {
-        stDate = patients?.filter(item => (item.date1 == patient.date1) && (item.doctor == patient.doctor) && (item.chamber == patient.chamber));
+        stDate = patients?.filter(item => item.date1 == patient.date1);
         serialDate = stDate.map(item => item.serial);
         filSerial = serialDate?.filter(item => item != undefined);
-        ans = numArr?.filter(item => !filSerial.includes(item.toString()))
-
+        ans = numArr?.filter(item => !filSerial.includes(item))
+        ans.unshift(patient.serial)
+        
     } else if(sCheck == 1) {
         let date2 = format(new Date(dateHo), 'yyyy-MM-dd');
-        stDate = patients?.filter(item => (item.date1.slice(0, 10) == date2) && (item.doctor == checkDoctor) && (item.chamber == checkChamber));
+        stDate = patients?.filter(item => item.date1.slice(0, 10) == date2);
         serialDate = stDate.map(item => item.serial);
         filSerial = serialDate?.filter(item => item != undefined);
-        ans = numArr?.filter(item => !filSerial.includes(item.toString()))
+        ans = numArr?.filter(item => !filSerial.includes(item))
     }
     
     if(!ans) {
@@ -804,6 +793,10 @@ const Appointment = () => {
     }
 
 
+    console.log({patient, follow})
+    
+    console.log("Patient-Serial", patient.serial);
+
     return (
         <div className="grid crud-demo">
             <div className="col-12">
@@ -990,7 +983,7 @@ const Appointment = () => {
                                     value={new Date(patient.date1)}
                                     name='date1' 
                                     onChange={(e) => onDateChange(e, "date1")} 
-                                    dateFormat="dd/mm/yy" 
+                                    // dateFormat="dd/mm/yy" 
                                     placeholder="Select a Date"
                                     required
                                     showIcon
