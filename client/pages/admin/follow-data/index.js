@@ -322,7 +322,6 @@ const All_Data = () => {
                         header={header}
                         responsiveLayout="scroll"
                     >
-
                          <Column
                             field="name"
                             header="Patient Name"

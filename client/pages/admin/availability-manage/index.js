@@ -1,5 +1,4 @@
 import { Button } from 'primereact/button';
-import { Checkbox } from "primereact/checkbox";
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
@@ -275,8 +274,6 @@ const Availability_Manage = () => {
         );
     };
 
-    
-
     const chamberBodyTemplate = (rowData) => {
         return (
             <>
@@ -503,7 +500,7 @@ const Availability_Manage = () => {
                                                         value={category} 
                                                         onChange={onCategoryChange} 
                                                         checked={selectedCategories.some((item) => item.key === category.key)}  
-                                                    /> */}
+                                                    /> */}  
                                                     <label htmlFor={category.key} className="ml-2 m-2">
                                                         {category.name}
                                                     </label>

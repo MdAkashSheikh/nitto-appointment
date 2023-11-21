@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
 mongoose.connect(process.env.DB_CONN)
-.then(() => console.log('DATABASE CONNECTED'))
+.then(() => console.log('Database Connected'))
 .catch((err) => console.log(err));
 
 app.use(AllRoute);
