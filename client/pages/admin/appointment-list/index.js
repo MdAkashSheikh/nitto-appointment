@@ -793,6 +793,7 @@ const Appointment = () => {
 
 
     console.log({patient, follow})
+    console.log(follow.image, "IMAGE")
 
     return (
         <div className="grid crud-demo">
@@ -998,7 +999,6 @@ const Appointment = () => {
                                     </small>
                                 )}
                             </div>
-                            {/* <Calendar value={testDate} onChange={(e) => setTestDate(e.value)} showIcon /> */}
                             <div className="field col">
                                 <label htmlFor="time1">Time</label>
                                 <Dropdown
@@ -1151,7 +1151,6 @@ const Appointment = () => {
                                 <Calendar 
                                     value={new Date(follow.followUpDate)}
                                     name='followUpDate' 
-                                    // onChange={(e) => onFollowChange(e, "followUpDate")}
                                     onChange={(e) => onFollowDateChange(e, "followUpDate")} 
                                     dateFormat="dd/mm/yy" 
                                     placeholder="Select a Date"
@@ -1193,15 +1192,14 @@ const Appointment = () => {
 
                         <div >
                             <FileUpload 
-                                multiple 
+                                multiple
+                                value={(follow.image)} 
                                 accept="image/*" 
                                 name='photo'
-                                // url='//localhost:5000/post-follow-image'
                                 url={`${URL}/post-follow-image`}
                                 maxFileSize={1000000} 
                                 emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>} 
                                 onUpload={(e)=> { 
-                                    
                                     console.log( "slidufgoidh", e)
                                     const data = JSON.parse(e.xhr.responseText)
                                     console.log(data)
