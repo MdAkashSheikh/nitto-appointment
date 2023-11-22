@@ -779,7 +779,20 @@ const Appointment = () => {
             <Button label='Cancel' icon='pi pi-times' text onClick={hideEditFollowDialog} />
             <Button label='Save' icon='pi pi-check' text onClick={ () => saveProduct('followEdit')} />
         </>
-    )
+    );
+
+    const imageShow = () => {
+        if(follow.image) {
+            return follow.image.map(item => {
+                return (
+                    <div>
+                        <img src={`${URL}/uploads/` + item} width={100} height={60}/>
+    
+                    </div>
+                )
+            })
+        }
+    }
     
     if(patients == null) {
         return (
@@ -1312,6 +1325,9 @@ const Appointment = () => {
                                     console.log("remove", e)
                                 }}
                             />
+                        </div>.
+                        <div>
+                            {imageShow()}
                         </div>
                     </Dialog>
                     
