@@ -67,6 +67,7 @@ const Appointment = () => {
 
     const [productDialog, setProductDialog] = useState(false);
 
+    const [editFollowDialog, setEditFollowDialog] = useState(false);
     const [followDialog, setFolloDialog] = useState(false);
     const [follow, setFollow] = useState(emptyFollo);
     const [patient, setPatient] = useState(emptyPatient);
@@ -153,6 +154,11 @@ const Appointment = () => {
         setFolloDialog(false);
     };
 
+    const hideEditFollowDialog = () => {
+        setSubmitted(false);
+        setEditFollowDialog(false);
+    }
+
     follow.visit_status = checked;
   
 
@@ -236,7 +242,7 @@ const Appointment = () => {
                 setFolloDialog(false);
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Follow Up Date is Created', life: 3000 });
             })
-        } else if(type == "follow" &&  follow.price && follow.followUpDate && follow.visit_time && follow._id) {
+        } else if(type == "followEdit" &&  follow.price && follow.followUpDate && follow.visit_time && follow._id) {
             console.log("EDIT-FOLLOW");
             FollowUpServices.editFollow(
                 follow.price,
@@ -262,7 +268,7 @@ const Appointment = () => {
     const editFollow = (follow) => {
         setFollow({...follow});
         setChecked(follow.visit_status);
-        setFolloDialog(true);
+        setEditFollowDialog(true);
         setCheckChamber(follow.chamber);
         setCheckDoctor(follow.doctor);
         setCheckSpecial(follow.specialist) 
@@ -767,7 +773,13 @@ const Appointment = () => {
             <Button label="Save" icon="pi pi-check" text onClick={ () => saveProduct('follow')} />
         </>
     );
-    
+
+    const editFollowDialogFooter = (
+        <>
+            <Button label='Cancel' icon='pi pi-times' text onClick={hideEditFollowDialog} />
+            <Button label='Save' icon='pi pi-check' text onClick={ () => saveProduct('followEdit')} />
+        </>
+    )
     
     if(patients == null) {
         return (
@@ -1193,7 +1205,98 @@ const Appointment = () => {
                         <div >
                             <FileUpload 
                                 multiple
-                                value={(follow.image)} 
+                                accept="image/*" 
+                                name='photo'
+                                url={`${URL}/post-follow-image`}
+                                maxFileSize={1000000} 
+                                emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>} 
+                                onUpload={(e)=> { 
+                                    console.log( "slidufgoidh", e)
+                                    const data = JSON.parse(e.xhr.responseText)
+                                    console.log(data)
+                                    setFile([...file, ...data.file1]);
+                                }}
+                                onRemove={(e)=> { 
+                                    console.log("remove", e)
+                                }}
+                            />
+                        </div>
+                    </Dialog>
+
+                    <Dialog
+                        visible={editFollowDialog}
+                        style={{ width: "550px" }}
+                        header="Edit-Follow-Up-Date"
+                        modal
+                        className="p-fluid"
+                        footer={editFollowDialogFooter}
+                        onHide={hideEditFollowDialog}
+                    >
+
+                        <div className="formgrid grid">
+                            <div className="card flex justify-content-center gap-3">
+                                    <label htmlFor="age">Visit Status</label> 
+                                    <Checkbox onChange={e => setChecked(e.checked)} checked={checked}></Checkbox>
+                            </div>
+                            <div className="field col">
+                                <label htmlFor="price">Amount</label>
+                                <InputText
+                                    id="price"
+                                    value={(follow.price)}
+                                    onChange={(e) => onFollowChange(e, "price")}
+                                    placeholder='Enter  Dr. Visit Charge'
+                                />
+                            </div>
+                        </div>
+                        
+                        <div className="formgrid grid">
+                            <div className="field col">
+                                <label htmlFor="date1">Follow Up Date</label>
+                                <Calendar 
+                                    value={new Date(follow.followUpDate)}
+                                    name='followUpDate' 
+                                    onChange={(e) => onFollowDateChange(e, "followUpDate")} 
+                                    dateFormat="dd/mm/yy" 
+                                    placeholder="Select a Date"
+                                    required
+                                    showIcon
+                                    className={classNames({
+                                        "p-invalid": submitted && !follow.followUpDate,
+                                    })}
+                                />
+                                {submitted && !follow.followUpDate && (
+                                    <small className="p-invalid">
+                                        Follow Up Date is required.
+                                    </small>
+                                )}
+                            </div>
+                            
+                            <div className="field col">
+                                <label htmlFor="time1">Time to Visit</label>
+                                <Dropdown
+                                    value={follow.visit_time}
+                                    name='time1'
+                                    onChange={(e) => onFollowChange(e, "visit_time")}
+                                    options={timeList1}
+                                    optionLabel="label"
+                                    showClear
+                                    placeholder="Select a Time"
+                                    required
+                                    className={classNames({
+                                        "p-invalid": submitted && !follow.visit_time,
+                                    })}
+                                />
+                                {submitted && !follow.visit_time && (
+                                    <small className="p-invalid">
+                                        Visit Time is required.
+                                    </small>
+                                )}
+                            </div>
+                        </div>
+
+                        <div >
+                            <FileUpload 
+                                multiple
                                 accept="image/*" 
                                 name='photo'
                                 url={`${URL}/post-follow-image`}

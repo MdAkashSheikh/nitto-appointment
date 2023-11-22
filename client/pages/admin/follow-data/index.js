@@ -210,8 +210,6 @@ const All_Data = () => {
         
     }
    
-
-
     const imageBodyTemplate1 = (rowData) => {
         const rowImages = rowData.image?.map(item => `${URL}/uploads/` + item);
         return (
