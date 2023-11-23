@@ -83,6 +83,7 @@ const Appointment = () => {
     const [position, setPosition] = useState('center');
     const [sCheck, setSCheck] = useState(null);
     const [dateHo, setDateHo] = useState(null);
+    const [items, setItems] = useState('');
     
     const timeObj = [];
 
@@ -781,13 +782,22 @@ const Appointment = () => {
         </>
     );
 
+    const deleteImage = (image, id) => {
+        console.log(image, id)
+        FollowUpServices.deleteImage(image, id).then(() => {
+            setTogleRefresh(!toggleRefresh);
+            setEditFollowDialog(true);
+            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Image is Deleted', life: 3000 })
+        })
+    }
+
     const imageShow = () => {
         if(follow.image) {
             return follow.image.map(item => {
                 return (
-                    <div>
+                    <div className='formgrid grid'>
                         <img src={`${URL}/uploads/` + item} width={100} height={60}/>
-    
+                        <button className='m-4' onClick={()=> deleteImage(item, follow._id)}>delete</button>
                     </div>
                 )
             })

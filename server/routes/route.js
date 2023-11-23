@@ -40,7 +40,8 @@ const {
     getFollow,
     getFollowImage,
     postFollowSMS,
-    editPatientFollow
+    editPatientFollow,
+    deleteImage
  } = require('../controllers/followUp');
 
 const { 
@@ -131,6 +132,7 @@ router.get('/get-follow', getFollow);
 router.get('/image/:filename', getFollowImage);
 router.post('/post-follow-sms/:id', postFollowSMS);
 router.post('/edit-patient-follow/:id', editPatientFollow);
+router.post('/delete-image/:id', deleteImage);
 
 //Availability Route URL
 router.post('/post-avail', postAvail);

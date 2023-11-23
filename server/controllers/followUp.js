@@ -3,6 +3,7 @@ const patientSc = require("../models/patientSc");
 const smsSc = require("../models/smsSc");
 const { send_sms } = require("../sms_api/smsApi");
 
+
 const postFollow = async(req, res) => {
     const chamber = req.body.chamber;
     const specialist = req.body.specialist;
@@ -147,6 +148,21 @@ const editPatientFollow = async(req, res) => {
     }
 }
 
+const deleteImage = async(req, res) => {
+    const {image, id} = req.body;
+    const followData = await followUpSc.findOne({_id: id});
+    const filterImage = followData.image.filter(item => item != image);
+
+    try{
+        const oneData = await followUpSc.findByIdAndUpdate(id, {
+            'image': filterImage
+        })
+        res.send(oneData)
+    }catch(err) {
+        res.status(400).send(err);
+    }
+}
+
 module.exports = {
     postFollow,
     editFollow,
@@ -155,4 +171,5 @@ module.exports = {
     getFollowImage,
     postFollowSMS,
     editPatientFollow,
+    deleteImage,
 }

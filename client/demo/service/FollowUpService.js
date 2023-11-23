@@ -59,5 +59,13 @@ export const FollowUpServices = {
         }
 
         await axios.post(`${URL}/post-follow-sms/` + _id, data);
+    },
+   
+    async deleteImage(image, id) {
+        const data = {
+            image,
+            id,
+        }
+        await axios.post(`${URL}/delete-image/` + id, data);
     }
 }
