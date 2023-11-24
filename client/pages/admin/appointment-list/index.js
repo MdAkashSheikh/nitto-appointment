@@ -113,7 +113,7 @@ const Appointment = () => {
             setMsAvailable(res.data.AllData);
         })
 
-    }, [ jwtToken, toggleRefresh]);
+    }, [ jwtToken, toggleRefresh, editFollowDialog]);
 
     const openNew = () => {
         setPatient(emptyPatient);
@@ -249,10 +249,11 @@ const Appointment = () => {
                 follow.price,
                 follow.followUpDate,
                 follow.time1,
+                file,
                 follow._id,
             ).then(() => {
                 setTogleRefresh(!toggleRefresh);
-                setFolloDialog(false);
+                setEditFollowDialog(false);
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Follow Up Date is Updated', life: 3000 });
             })
         }
@@ -787,6 +788,7 @@ const Appointment = () => {
         FollowUpServices.deleteImage(image, id).then(() => {
             setTogleRefresh(!toggleRefresh);
             setEditFollowDialog(true);
+            // setFile(null);
             toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Image is Deleted', life: 3000 })
         })
     }

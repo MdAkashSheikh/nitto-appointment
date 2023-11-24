@@ -49,12 +49,15 @@ const editFollow = async(req, res) => {
     const price = req.body.price;
     const followUpDate = req.body.followUpDate;
     const visit_time = req.body.visit_time;
+    const file = req.body.file;
 
+    console.log("Body",req.body);
     try {
         const oneData = await followUpSc.findByIdAndUpdate(id, {
             "price": price,
             "followUpDate": followUpDate,
             "visit_time": visit_time,
+            "image": file,
         })
         res.send(oneData);
 

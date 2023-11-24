@@ -24,11 +24,12 @@ export const FollowUpServices = {
         await axios.post(`${URL}/post-follow`, data);
     },
 
-    async editFollow(price, followUpDate, visit_time, _id) {
+    async editFollow(price, followUpDate, visit_time,file, _id) {
         const data = {
             price,
             followUpDate,
             visit_time,
+            file,
         }
 
         await axios.post(`${URL}/edit-follow/` + _id, data);
