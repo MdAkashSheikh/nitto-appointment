@@ -795,12 +795,34 @@ const Appointment = () => {
 
     const imageShow = () => {
         if(follow.image) {
-            return follow.image.map(item => {
+            return follow.image.map((item, i) => {
                 return (
-                    <div className='formgrid grid'>
-                        <img src={`${URL}/uploads/` + item} width={100} height={60}/>
-                        <button className='m-4' onClick={()=> deleteImage(item, follow._id)}>delete</button>
+                    <div className="p-fileupload-content px-1 py-1" key={i}>
+                        <div>
+                            <div>
+                                </div>
+                        </div>
+                        <div>
+                            <div className="p-fileupload-row">
+                                <img role="presentation" className="p-fileupload-file-thumbnail mr-2" src={`${URL}/uploads/` + item}  width="50"></img>
+                                <div>
+                                    {/* <div> 3986713721183785605_n.jpg</div> */}
+                                    <span>130.131 KB</span>
+                                    <span className="p-badge p-component p-badge-success p-fileupload-file-badge">Completed</span>
+                                    </div>
+                                    <div>
+                                        <button type="button" className="p-button p-component p-button-danger p-button-text p-button-rounded p-button-icon-only">
+                                            <span className="p-button-icon p-c pi pi-times" onClick={()=> deleteImage(item, follow._id)}></span>
+                                            <span className="p-button-label p-c">&nbsp;</span><span role="presentation" className="p-ink" style={{height: '42px', width: '42px'}}></span>
+                                        </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    // <div className='formgrid grid'>
+                    //     <img src={`${URL}/uploads/` + item} width={100} height={60}/>
+                    //     <button className='m-4' onClick={()=> deleteImage(item, follow._id)}>delete</button>
+                    // </div>
                 )
             })
         }
@@ -1338,7 +1360,7 @@ const Appointment = () => {
                                 }}
                             />
                         </div>.
-                        <div>
+                        <div className='card px-1'>
                             {imageShow()}
                         </div>
                     </Dialog>
