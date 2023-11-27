@@ -787,8 +787,8 @@ const Appointment = () => {
         console.log(image, id)
         FollowUpServices.deleteImage(image, id).then(() => {
             setTogleRefresh(!toggleRefresh);
-            setEditFollowDialog(true);
-            // setFile(null);
+            setEditFollowDialog(false);
+            setFollow({...emptyFollo})
             toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Image is Deleted', life: 3000 })
         })
     }
@@ -1021,7 +1021,7 @@ const Appointment = () => {
                                     value={new Date(patient.date1)}
                                     name='date1' 
                                     onChange={(e) => onDateChange(e, "date1")} 
-                                    dateFormat="dd/mm/yy" 
+                                    // dateFormat="dd/mm/yy" 
                                     placeholder="Select a Date"
                                     required
                                     disabled={sCheck == 0}
