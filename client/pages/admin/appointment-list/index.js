@@ -1021,7 +1021,7 @@ const Appointment = () => {
                                     value={new Date(patient.date1)}
                                     name='date1' 
                                     onChange={(e) => onDateChange(e, "date1")} 
-                                    // dateFormat="dd/mm/yy" 
+                                    dateFormat="dd/mm/yy" 
                                     placeholder="Select a Date"
                                     required
                                     disabled={sCheck == 0}
