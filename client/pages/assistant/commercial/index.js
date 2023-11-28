@@ -89,11 +89,10 @@ const All_Data = () => {
         })
         DoctorService.getDoctor().then((res) => setMsDoctor(res.data.AllData));
 
-    }, [jwtToken]);
+    }, [jwtToken, dt]);
 
     const filterData = operatorData?.filter(item => item.userName == jwtUser);
     const Doctor = filterData?.map(item => item.dr_name).toString();
-    console.log(Doctor, "DOCTOR______")
     const filterFollow = followData?.filter(item => item.doctor == Doctor);
 
     const filteredDoctor = msDoctor?.filter(item => item.is_active == '1');
