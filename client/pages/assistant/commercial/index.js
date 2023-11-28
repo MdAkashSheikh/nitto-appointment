@@ -1,10 +1,8 @@
 import { format } from 'date-fns';
-import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
-import { Checkbox } from "primereact/checkbox";
 import { DataTable } from 'primereact/datatable';
-import { Dialog } from 'primereact/dialog';
+import { Dropdown } from 'primereact/dropdown';
 import { Galleria } from 'primereact/galleria';
 import { InputText } from 'primereact/inputtext';
 import { Skeleton } from 'primereact/skeleton';
@@ -12,25 +10,19 @@ import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import React, { useEffect, useRef, useState } from 'react';
 import { getJWTDoctor, getUserName} from '../../../utils/utils';
-import { PatientService, URL } from '../../../demo/service/PatientService';
+import { PatientService } from '../../../demo/service/PatientService';
 import { FollowUpServices } from '../../../demo/service/FollowUpService';
+import { DoctorService } from '../../../demo/service/DoctorService';
 import { OperatorService } from '../../../demo/service/OperatorService';
 
-const Visit_Details = () => {
-
-    const emptyFollowSMS = {
-        id: 0,
-        status: '',
-        is_active: 'Success',
-    }
+const All_Data = () => {
     
     const [products, setProducts] = useState(null);
+    const [operatorData, setOperatorData] = useState(null);
+
     const [selectedProducts, setSelectedProducts] = useState(null);
     let [followData, setFollowData] = useState(null);
-    const [operatorData, setOperatorData] = useState(null);
-    const [smsDailog, setSMSDialog] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
-    const [smsData, setSmsData] = useState(emptyFollowSMS);
     const toast = useRef(null);
     const galleria = useRef();
     const dt = useRef(null);
@@ -38,6 +30,9 @@ const Visit_Details = () => {
     const [images, setImages] = useState(['https://primefaces.org/cdn/primereact/images/galleria/galleria10.jpg']);
     const [jwtToken, setJwtToken] = useState(null);
     const [jwtUser, setJWTUser] = useState(null);
+    const [date2, setDate2] = useState(null);
+    const [msDoctor, setMsDoctor] = useState(null);
+    const [totalPrice, setTotalPrice] = useState(0)
 
     useEffect(() => {
         const jwtToken = getJWTDoctor();
@@ -78,6 +73,7 @@ const Visit_Details = () => {
     const thumbnailTemplate = (item) => {
         return <img src={item} alt="img" style={{ display: 'block', width: '100px' }} />;
     }
+
     
     useEffect(() => {
         if(!jwtToken) {
@@ -85,60 +81,38 @@ const Visit_Details = () => {
         }
 
         PatientService.getPatient().then((res) => setProducts(res.data.AllData));
-        FollowUpServices.getFollow().then((res) => setFollowData(res.data.AllData));
         OperatorService.getOperator().then((res) => setOperatorData(res.data.AllData));
-    
-    }, [jwtToken, globalFilter, toggleRefresh]);
+        FollowUpServices.getFollow().then((res) => {
+            setFollowData(res.data.AllData)
+            const price = getTotalPrice(res.data.AllData)
+            setTotalPrice(price);
+        })
+        DoctorService.getDoctor().then((res) => setMsDoctor(res.data.AllData));
 
-
-    const editSMSData = (smsData) => {
-        setSmsData({ ...smsData });
-        setSMSDialog(true)
-    };
-
-    const hideSMSDialog = () => {
-        setSMSDialog(false);
-    };
-
-    const sendSMS =() => {
-        let doctorFilter = operatorData?.filter(item => item.dr_name == smsData.doctor);
-        let doctorNumber = doctorFilter?.map(item => item.phone).toString();
-
-        if(smsData.chamber, smsData.followUpDate, smsData.doctor, smsData.name, smsData.phone, doctorNumber, smsData._id) {
-            FollowUpServices.postFollowSMS(
-                smsData.chamber,
-                smsData.followUpDate,
-                smsData.doctor,
-                smsData.name,
-                smsData.phone,
-                doctorNumber,
-                smsData._id,
-            ).then(() => {
-                setTogleRefresh(!toggleRefresh);
-                setSMSDialog(false);
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Successfully sent sms', life: 3000 });
-            })
-        }
-    }
-
-    // const filterData = masterOperator?.filter(item => item.userName == jwtUser);
-    // const Doctor = filterData?.map(item => item.dr_name).toString();
-
-    // const filterPatients = patients?.filter(item => item.doctor == Doctor)
+    }, [jwtToken]);
 
     const filterData = operatorData?.filter(item => item.userName == jwtUser);
-    console.log(jwtUser)
     const Doctor = filterData?.map(item => item.dr_name).toString();
-
-    console.log(Doctor, "DOCTOR_NAME")
-
+    console.log(Doctor, "DOCTOR______")
     const filterFollow = followData?.filter(item => item.doctor == Doctor);
+
+    const filteredDoctor = msDoctor?.filter(item => item.is_active == '1');
+    const doctorList = filteredDoctor?.map(item => {
+        return {label: item.name, value: item.name};
+    })
+
+    const getTotalPrice = (data) => {
+        let price = 0;
+        data.forEach(x => price += +x.price)
+        return price;
+    }
 
     const nameBodyTemplate = (rowData) => {
         return (
             <>
                 <span className="p-column-title">Patient Name</span>
                 {rowData.name}
+                
             </>
         );
     }
@@ -161,19 +135,10 @@ const Visit_Details = () => {
         );
     }
 
-    const chamberBodyTemplate = (rowData) => {
-        return (
-            <>
-                <span className="p-column-title">Chamber</span>
-                {rowData.chamber}
-            </>
-        );
-    }
-
     const doctorBodyTemplate = (rowData) => {
         return (
             <>
-                <span className="p-column-title">Chamber</span>
+                <span className="p-column-title">Doctor</span>
                 {rowData.doctor}
             </>
         );
@@ -188,69 +153,21 @@ const Visit_Details = () => {
         );
     }
 
-    const visit_timeBodyTemplate = (rowData) => {
-        return (
-            <>
-                <span className="p-column-title">Visit Time</span>
-                {rowData.visit_time}
-            </>
-        );
-    }
-
     const followUpDateBodyTemplate = (rowData) => {
         return (
             <>
                 <span className="p-column-title">follow Up Date</span>
-                {rowData.followUpDate.slice(0, 10)}
-            </>
-        );
-    }
-   
-
-
-    const imageBodyTemplate1 = (rowData) => {
-        const rowImages = rowData.image?.map(item => `${URL}/uploads/` + item);
-        return (
-            <>
-                <span className="p-column-title">Image</span>
-                <Button label="Show" icon="pi pi-external-link" onClick={() => {
-                    setImages(rowImages);
-                    galleria.current.show();
-                }} />
-
+                {rowData.followUpDate}
             </>
         );
     }
 
-    const smsStatusBodyTemplate = (rowData) => {
-        return (
-            <>
-                 <span className="p-column-title">SMS Status</span>
-                 {rowData.is_active}
-            </>
-        )
-    }
-
-    const actionBodyTemplate = (rowData) => {
-        return (
-            <>
-                <Button icon="pi pi-send" severity="success" rounded className="mr-2" onClick={() => editSMSData(rowData)} />
-            </>
-        );
-    };
-
-    const sendSmsDialogFooter = (
-        <>
-            <Button label="No" icon="pi pi-times" text onClick={hideSMSDialog} />
-            <Button label="Yes" icon="pi pi-check" text onClick={sendSMS} />
-        </>
-    );
 
     const topHeader = () => {
         return (
             <React.Fragment>
                 <div className="my-2">
-                    <h2 className="m-0">Patient Details</h2>
+                    <h2 className="m-0">Commercial Page</h2>
                 </div>
             </React.Fragment>
         );
@@ -265,7 +182,6 @@ const Visit_Details = () => {
             </span>
         </div>
     );
-    
 
     if(products == null) {
         return (
@@ -289,6 +205,13 @@ const Visit_Details = () => {
         )
     }
 
+
+    function onValueChange(filteredData) {
+        const price = getTotalPrice(filteredData);
+        setTotalPrice(price);
+    }
+    
+
     return (
         <>
         
@@ -308,16 +231,21 @@ const Visit_Details = () => {
                     ></Toolbar>
                     <DataTable
                         ref={dt}
-                        // value={globalFilter? followData : []}
                         value={filterFollow}
                         selection={selectedProducts}
                         onSelectionChange={(e) => setSelectedProducts(e.value)}
                         dataKey="id"
-                        rows={5}
+                        paginator
+                        rows={10}
+                        rowsPerPageOptions={[5, 10, 25, 50, 100]}
+                        className="datatable-responsive"
+                        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                        currentPageReportTemplate="Showing {first} to {last} out of {totalRecords} Patients"
                         globalFilter={globalFilter}
-                        emptyMessage="Empty Data..."
+                        emptyMessage="Not found."
                         header={header}
                         responsiveLayout="scroll"
+                        onValueChange={onValueChange}
                     >
 
                          <Column
@@ -344,65 +272,17 @@ const Visit_Details = () => {
                             body={priceBodyTemplate}
                             headerStyle={{ minWidth: "3rem" }}
                         ></Column>
-                        <Column
-                            field="chamber"
-                            header="Chamber"
-                            body={chamberBodyTemplate}
-                            headerStyle={{ minWidth: "3rem" }}
-                        ></Column>
-                        <Column
-                            field="doctor"
-                            header="Doctor"
-                            body={doctorBodyTemplate}
-                            headerStyle={{ minWidth: "3rem" }}
-                        ></Column>
-                        <Column
-                            field="visit_time"
-                            header="Visit Time"
-                            body={visit_timeBodyTemplate}
-                            headerStyle={{ minWidth: "3rem" }}
-                        ></Column>
-                        <Column
-                            field="followUpDate"
-                            header="Follow-Up-Date"
-                            body={followUpDateBodyTemplate}
-                            headerStyle={{ minWidth: "3rem" }}
-                        ></Column>
-                        <Column
-                            field="image"
-                            header="image"
-                            body={imageBodyTemplate1}
-                            headerStyle={{ minWidth: "3rem" }}
-                        >
-                        </Column>
-                        <Column
-                            header="SMS Status"
-                            body={smsStatusBodyTemplate}
-                            headerStyle={{ minWidth: "2rem" }}
-                        ></Column>
-                        <Column
-                            header="Send SMS"
-                            body={actionBodyTemplate}
-                            headerStyle={{ minWidth: "2rem" }}
-                        ></Column>
                     </DataTable>
-
-                    <Dialog visible={smsDailog} style={{ width: '450px' }} header="Confirm" modal footer={sendSmsDialogFooter} onHide={hideSMSDialog}>
-                        <div className="flex align-items-center justify-content-center">
-                            <i className="pi pi-comments mr-3" style={{ fontSize: '2rem' }} />
-                            {followData && (
-                                <span>
-                                    Are you sure you want to Send Follow Up SMS <b>{followData.name}</b>?
-                                </span>
-                            )}
-                        </div>
-                    </Dialog>
-                    
                 </div>
+                
+                <div className="card flex justify-content-center">
+                    <h1>Total Ammount: {totalPrice}</h1>    
+                </div>
+
             </div>
         </div>
         </>
     );
 }
 
-export default  Visit_Details;
+export default  All_Data;

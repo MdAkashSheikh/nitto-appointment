@@ -278,8 +278,8 @@ const Dashboard = () => {
                         <div className="text-white font-medium text-5xl"></div>
                     </div>
                     <div className="mt-4 mr-auto md:mt-0 md:mr-0">
-                        <Link href="https://nittodigital.com/" className="p-button font-bold px-5 py-3 p-button-warning p-button-rounded p-button-raised">
-                            Get Started
+                        <Link href="https://nittodigital.com/" target="_blank" className="p-button font-bold px-5 py-3 p-button-warning p-button-rounded p-button-raised">
+                            Go To The Website
                         </Link>
                     </div>
                 </div>
