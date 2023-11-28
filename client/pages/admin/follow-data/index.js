@@ -73,10 +73,16 @@ const All_Data = () => {
 
 
     const itemTemplate = (item) => {
+        if(!item) {
+            return <div></div>;
+        }
         return <img src={item} alt="img" style={{ width: '100%', maxHeight: '70vh', display: 'block' }} />;
     }
 
     const thumbnailTemplate = (item) => {
+        if(!item) {
+            return <div></div>;
+        }
         return <img src={item} alt="img" style={{ display: 'block', width: '100px' }} />;
     }
 
@@ -89,9 +95,8 @@ const All_Data = () => {
         PatientService.getPatient().then((res) => setProducts(res.data.AllData));
         FollowUpServices.getFollow().then((res) => setFollowData(res.data.AllData));
         OperatorService.getOperator().then((res) => setOperatorData(res.data.AllData));
-        DoctorService.getDoctor().then((res) => setMasterDoctor(res.data.AllData));
-
-    
+        DoctorService.getDoctor().then((res) => setMasterDoctor(res.data.AllData))
+        
     }, [jwtToken, globalFilter, toggleRefresh]);
 
 
@@ -229,8 +234,10 @@ const All_Data = () => {
             <>
                 <span className="p-column-title">Image</span>
                 <Button label="Show" icon="pi pi-external-link" onClick={() => {
-                    setImages(rowImages);
-                    galleria.current.show();
+                    if (rowImages?.length > 0) {
+                        setImages(rowImages);
+                        galleria.current?.show();
+                    }
                 }} />
 
             </>
@@ -310,10 +317,13 @@ const All_Data = () => {
         
         <div className="grid crud-demo">
             <div >
-                <Galleria ref={galleria} value={images}
+                {images?.length> 0 && (
+                  <Galleria ref={galleria} value={images}
                     responsiveOptions={responsiveOptions} numVisible={5} style={{ maxWidth: '50%' }} 
                         circular fullScreen showItemNavigators item={itemTemplate} thumbnail={thumbnailTemplate} 
-                />
+                />  
+                )}
+                
             </div>
             <div className="col-12">
                 <div className="card">
