@@ -236,6 +236,7 @@ const Appointment = () => {
                 follow.price,
                 follow.followUpDate,
                 follow.time1,
+                file,
                 follow._id,
             ).then(() => {
                 setTogleRefresh(!toggleRefresh);
@@ -630,6 +631,51 @@ const Appointment = () => {
         </>
     );
     
+    const deleteImage = (image, id) => {
+        console.log(image, id)
+        FollowUpServices.deleteImage(image, id).then(() => {
+            follow.image = follow.image.filter(item1 => item1 != image);
+            setFollow({...emptyFollo})
+            setFile(follow.image)
+            setTogleRefresh(!toggleRefresh);
+            setFolloDialog(false);
+            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Image is Deleted', life: 3000 })
+        })
+    }
+
+    const imageShow = () => {
+        if(follow.image) {
+            return follow.image.map((item, i) => {
+                return (
+                    <div className="p-fileupload-content px-1 py-1" key={i}>
+                        <div>
+                            <div>
+                                </div>
+                        </div>
+                        <div>
+                            <div className="p-fileupload-row">
+                                <img role="presentation" className="p-fileupload-file-thumbnail mr-2" src={`${URL}/uploads/` + item}  width="50"></img>
+                                <div>
+                                    <span>{item}</span>
+                                    <span className="p-badge p-component p-badge-success p-fileupload-file-badge">Completed</span>
+                                </div>
+                                <div>
+                                    <button type="button" className="p-button p-component p-button-danger p-button-text p-button-rounded p-button-icon-only">
+                                        <span className="p-button-icon p-c pi pi-times" onClick={()=> deleteImage(item, follow._id)}></span>
+                                        <span className="p-button-label p-c">&nbsp;</span><span role="presentation" className="p-ink" style={{height: '42px', width: '42px'}}></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    // <div className='formgrid grid'>
+                    //     <img src={`${URL}/uploads/` + item} width={100} height={60}/>
+                    //     <button className='m-4' onClick={()=> deleteImage(item, follow._id)}>delete</button>
+                    // </div>
+                )
+            })
+        }
+    }
     
     if(patients == null) {
         return (
@@ -1075,6 +1121,9 @@ const Appointment = () => {
                                     console.log("remove", e)
                                 }}
                             />
+                        </div>
+                        <div className='card px-1'>
+                            {imageShow()}
                         </div>
                     </Dialog>
                     

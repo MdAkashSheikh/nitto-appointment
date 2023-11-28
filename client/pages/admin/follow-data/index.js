@@ -1,7 +1,10 @@
+import { format } from 'date-fns';
 import { Button } from 'primereact/button';
+import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
 import { Checkbox } from "primereact/checkbox";
 import { DataTable } from 'primereact/datatable';
+import { Dropdown } from 'primereact/dropdown';
 import { Dialog } from 'primereact/dialog';
 import { Galleria } from 'primereact/galleria';
 import { InputText } from 'primereact/inputtext';
@@ -13,6 +16,7 @@ import { getJWTAdmin } from '../../../admin-utils/utils';
 import { PatientService, URL } from '../../../demo/service/PatientService';
 import { FollowUpServices } from '../../../demo/service/FollowUpService';
 import { OperatorService } from '../../../demo/service/OperatorService';
+import { DoctorService } from '../../../demo/service/DoctorService';
 
 const All_Data = () => {
 
@@ -29,6 +33,8 @@ const All_Data = () => {
     const [smsDailog, setSMSDialog] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const [smsData, setSmsData] = useState(emptyFollowSMS);
+    const [masterDoctor, setMasterDoctor] = useState(null);
+
     const toast = useRef(null);
     const galleria = useRef();
     const dt = useRef(null);
@@ -83,6 +89,8 @@ const All_Data = () => {
         PatientService.getPatient().then((res) => setProducts(res.data.AllData));
         FollowUpServices.getFollow().then((res) => setFollowData(res.data.AllData));
         OperatorService.getOperator().then((res) => setOperatorData(res.data.AllData));
+        DoctorService.getDoctor().then((res) => setMasterDoctor(res.data.AllData));
+
     
     }, [jwtToken, globalFilter, toggleRefresh]);
 
@@ -118,6 +126,11 @@ const All_Data = () => {
             })
         }
     }
+
+    const filteredDoctor = masterDoctor?.filter(item => item.is_active == '1');
+    const doctorList = filteredDoctor?.map(item => {
+        return {label: item.name, value: item.name};
+    })
 
     const nameBodyTemplate = (rowData) => {
         return (
@@ -263,6 +276,8 @@ const All_Data = () => {
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search" />
                 <InputText type="search" onChange={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
+                <Calendar className='ml-2' placeholder='Searching by Date...' showClear onChange={(e) => setGlobalFilter(format(new Date(e.target.value), 'yyyy-MM-dd, h:mm:ss a').slice(0, 10))}/>
+                <Dropdown className='ml-2' value={globalFilter} placeholder="Searching by Doctor..." showClear options={doctorList} optionLabel='label' onChange={e => setGlobalFilter(e.target.value) }/>
             </span>
         </div>
     );

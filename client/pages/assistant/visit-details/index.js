@@ -1,8 +1,10 @@
+import { format } from 'date-fns';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { Checkbox } from "primereact/checkbox";
 import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
+import { Calendar } from 'primereact/calendar';
 import { Galleria } from 'primereact/galleria';
 import { InputText } from 'primereact/inputtext';
 import { Skeleton } from 'primereact/skeleton';
@@ -131,7 +133,7 @@ const Visit_Details = () => {
     console.log(jwtUser)
     const Doctor = filterData?.map(item => item.dr_name).toString();
 
-    console.log(Doctor, "DOCCCCCCCCCCCCCTRRRRRRRRRRRRRR")
+    console.log(Doctor, "DOCTOR_NAME")
 
     const filterFollow = followData?.filter(item => item.doctor == Doctor);
 
@@ -262,6 +264,7 @@ const Visit_Details = () => {
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search" />
                 <InputText type="search" onChange={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
+                <Calendar className='ml-2' placeholder='Searching by Date...' showClear onChange={(e) => setGlobalFilter(format(new Date(e.target.value), 'yyyy-MM-dd, h:mm:ss a').slice(0, 10))}/>
             </span>
         </div>
     );
