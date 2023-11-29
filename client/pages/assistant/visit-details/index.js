@@ -205,8 +205,6 @@ const Visit_Details = () => {
             </>
         );
     }
-   
-
 
     const imageBodyTemplate1 = (rowData) => {
         const rowImages = rowData.image?.map(item => `${URL}/uploads/` + item);
@@ -214,10 +212,11 @@ const Visit_Details = () => {
             <>
                 <span className="p-column-title">Image</span>
                 <Button label="Show" icon="pi pi-external-link" onClick={() => {
-                    setImages(rowImages);
-                    galleria.current.show();
+                    if(rowImages?.length > 0) {
+                        setImages(rowImages);
+                        galleria.current.show();
+                    }
                 }} />
-
             </>
         );
     }
@@ -291,13 +290,14 @@ const Visit_Details = () => {
 
     return (
         <>
-        
         <div className="grid crud-demo">
             <div >
+                {images?.length > 0 && (
                 <Galleria ref={galleria} value={images}
                     responsiveOptions={responsiveOptions} numVisible={5} style={{ maxWidth: '50%' }} 
                         circular fullScreen showItemNavigators item={itemTemplate} thumbnail={thumbnailTemplate} 
                 />
+                )}
             </div>
             <div className="col-12">
                 <div className="card">

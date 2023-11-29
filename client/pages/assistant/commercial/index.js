@@ -218,7 +218,7 @@ const All_Data = () => {
             <div >
                 <Galleria ref={galleria} value={images}
                     responsiveOptions={responsiveOptions} numVisible={5} style={{ maxWidth: '50%' }} 
-                        circular fullScreen showItemNavigators item={itemTemplate} thumbnail={thumbnailTemplate} 
+                    circular fullScreen showItemNavigators item={itemTemplate} thumbnail={thumbnailTemplate} 
                 />
             </div>
             <div className="col-12">
