@@ -76,14 +76,14 @@ const All_Data = () => {
         if(!item) {
             return <div></div>;
         }
-        return <img src={item} alt="img" style={{ width: '100%', maxHeight: '70vh', display: 'block' }} />;
+        return <img src={item} alt="img" style={{ width: '100%', maxHeight: '80vh', display: 'block' }} />;
     }
 
     const thumbnailTemplate = (item) => {
         if(!item) {
             return <div></div>;
         }
-        return <img src={item} alt="img" style={{ display: 'block', width: '100px' }} />;
+        return <img src={item} alt="img" style={{ display: 'block', width: '120px' }} />;
     }
 
     
