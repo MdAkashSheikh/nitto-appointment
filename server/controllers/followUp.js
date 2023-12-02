@@ -1,8 +1,12 @@
+const fs = require('fs');
+const path = require('path');
 const followUpSc = require("../models/followUpSc");
 const patientSc = require("../models/patientSc");
 const smsSc = require("../models/smsSc");
 const { send_sms } = require("../sms_api/smsApi");
 
+const dirname = path.join(__dirname, '../uploads');
+console.log(dirname);
 
 const postFollow = async(req, res) => {
     const chamber = req.body.chamber;
@@ -156,10 +160,15 @@ const deleteImage = async(req, res) => {
     const followData = await followUpSc.findOne({_id: id});
     const filterImage = followData.image.filter(item => item != image);
 
+    fs.unlink(dirname + "/"+ image, (err) => {
+        console.log(err)
+    })
+
     try{
         const oneData = await followUpSc.findByIdAndUpdate(id, {
             'image': filterImage
         })
+
         res.send(oneData)
     }catch(err) {
         res.status(400).send(err);
