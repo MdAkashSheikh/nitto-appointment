@@ -6,7 +6,6 @@ const smsSc = require("../models/smsSc");
 const { send_sms } = require("../sms_api/smsApi");
 
 const dirname = path.join(__dirname, '../uploads');
-console.log(dirname);
 
 const postFollow = async(req, res) => {
     const chamber = req.body.chamber;
@@ -160,8 +159,8 @@ const deleteImage = async(req, res) => {
     const followData = await followUpSc.findOne({_id: id});
     const filterImage = followData.image.filter(item => item != image);
 
-    fs.unlink(dirname + "/"+ image, (err) => {
-        console.log(err)
+    fs.unlink(dirname + "/" + image, (err) => {
+        console.log(err);
     })
 
     try{
